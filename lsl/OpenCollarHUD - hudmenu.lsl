@@ -21,15 +21,7 @@ integer COMMAND_EVERYONE = 504;
 integer CHAT = 505;
 integer COMMAND_UPDATE = 10001;
 
-//integer SEND_IM = 1000; deprecated.  each script should send its own IMs now.  This is to reduce even the tiny bt of lag caused by having IM slave scripts
 integer POPUP_HELP = 1001;
-
-integer HTTPDB_SAVE = 2000;//scripts send messages on this channel to have settings saved to httpdb
-//str must be in form of "token=value"
-integer HTTPDB_REQUEST = 2001;//when startup, scripts send requests for settings on this channel
-integer HTTPDB_RESPONSE = 2002;//the httpdb script will send responses on this channel
-integer HTTPDB_DELETE = 2003;//delete token from DB
-integer HTTPDB_EMPTY = 2004;//sent when a token has no value in the httpdb
 
 integer MENUNAME_REQUEST = 3000;
 integer MENUNAME_RESPONSE = 3001;
@@ -39,8 +31,6 @@ integer MENUNAME_REMOVE = 3003;
 integer DIALOG = -9000;
 integer DIALOG_RESPONSE = -9001;
 integer DIALOG_TIMEOUT = -9002;
-
-//5000 block is reserved for IM slaves
 
 integer SET_SUB = -1000;
 integer SEND_CMD = -1001;
@@ -95,7 +85,7 @@ Menu(string name, key id)
 
 debug(string str)
 {
-    //llOwnerSay(llGetScriptName() + ": " + str);
+    //
 }
 
 default
@@ -104,7 +94,6 @@ default
     {
         wearer = llGetOwner();
         llSleep(1.0);//delay sending this message until we're fairly sure that other scripts have reset too, just in case
-        //llMessageLinked(LINK_SET, MENUNAME_REQUEST, "", "");
         //need to populate main menu with buttons for all menus we provide other than "Main"
         integer n;
         integer stop = llGetListLength(menunames);
@@ -115,7 +104,6 @@ default
             {
                 llMessageLinked(LINK_THIS, MENUNAME_RESPONSE, "Main|" + name, NULL_KEY);
                 llMessageLinked(LINK_THIS, MENUNAME_RESPONSE, name + "|" + UPMENU, NULL_KEY);
-                //llMessageLinked(LINK_THIS, MENUNAME_REQUEST, name, NULL_KEY);
             }
         }
         //add "CollarMenu" button to main menu
@@ -125,6 +113,7 @@ default
     touch_start(integer num)
     {
         key id = llDetectedKey(0);
+
         if ((llGetAttached() == 0)&& (id==wearer)) // Dont do anything if not attached to the HUD
         {
             llMessageLinked(LINK_THIS, COMMAND_UPDATE, "Update", id);
@@ -139,9 +128,10 @@ default
             if (button == "TPSubs")
             {
                 vector abspos = llGetPos() + llGetRegionCorner();
-                // -- tpto:" + (string)abspos.x + "/" + (string)abspos.y + "/" + (string)abspos.z + "=force // -- hudforcetp line 62
                 string _cmd = "tpto:" + (string)abspos.x + "/" + (string)abspos.y + "/" + (string)abspos.z + "=force";
+
                 llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, _cmd , NULL_KEY);
+
             }
             else if (button == "Menu")
             {
@@ -157,10 +147,13 @@ default
             }
             else if (button == "Leash")
             {
-                string cmd = "leashto " + (string)wearer + " handle";
+                llMessageLinked(LINK_SET, COMMAND_OWNER,"leashmenu", id);
+                              /*
+                               string cmd = "leashto " + (string)wearer + " handle";
                 llMessageLinked(LINK_THIS, SEND_CMD_NEARBY_SUBS, cmd,NULL_KEY);
                 llOwnerSay("Leashing nearby subs.");
-            }
+*/
+                        }
             else if (llSubStringIndex(button,"Owner")>=0)
             {
                 llMessageLinked(LINK_SET, COMMAND_OWNER,"hide",NULL_KEY);

@@ -6,17 +6,7 @@ integer timeout = 90;
 integer COMMAND_OWNER = 500;
 integer CHAT = 505;
 
-
-//integer SEND_IM = 1000; deprecated.  each script should send its own IMs now.  This is to reduce even the tiny bt of lag caused by having IM slave scripts
 integer POPUP_HELP = 1001;
-
-integer HTTPDB_SAVE = 2000;//scripts send messages on this channel to have settings saved to httpdb
-                            //str must be in form of "token=value"
-integer HTTPDB_REQUEST = 2001;//when startup, scripts send requests for settings on this channel
-integer HTTPDB_RESPONSE = 2002;//the httpdb script will send responses on this channel
-integer HTTPDB_DELETE = 2003;//delete token from DB
-integer HTTPDB_EMPTY = 2004;//sent when a token has no value in the httpdb
-
 integer MENUNAME_REQUEST = 3000;
 integer MENUNAME_RESPONSE = 3001;
 integer SUBMENU = 3002;
@@ -25,8 +15,6 @@ integer MENUNAME_REMOVE = 3003;
 integer DIALOG = -9000;
 integer DIALOG_RESPONSE = -9001;
 integer DIALOG_TIMEOUT = -9002;
-
-//5000 block is reserved for IM slaves
 
 integer SET_SUB = -1000;
 integer SEND_CMD = -1001;
@@ -45,8 +33,6 @@ string currentmenu;
 key owner = NULL_KEY;
 key menuid;
 string subName;
-//integer menuchannel;
-//integer menuhandle;
 
 list settings;
 
@@ -84,7 +70,6 @@ DialogSpy(key id)
     text += "Radar turns on/off a recurring report of nearby avatars.\n";
     text += "Listen turns on/off if you get directly said what the sub says in public chat.\n";
     text += "Please be aware commands can take up to 60 secs to reach the subs-collar.\n";
-    //text += "This menu will time out in " + (string)timeout + " seconds.";
     
     buttons += ["Listen On"];    
     buttons += ["Listen Off"];    
@@ -93,11 +78,6 @@ DialogSpy(key id)
     buttons += ["Radar On"];    
     buttons += ["Radar Off"];
     list utility = [UPMENU];
-    //buttons = RestackMenu(FillMenu(buttons));
-    //menuchannel = -(integer)llFrand(9999.0) + 3000;
-    //menuhandle = llListen(menuchannel, "", id, "");
-    //llDialog(id, text, buttons, menuchannel);
-    //llSetTimerEvent(timeout);
     menuid = Dialog(id, text, buttons, utility, 0);
 }
 
@@ -124,7 +104,6 @@ SaveSettings(string str, key id)
         settings = llListReplaceList(settings, [value], index + 1, index + 1);
     }
     string save = llDumpList2String(settings, ",");
-    llMessageLinked(LINK_SET, HTTPDB_SAVE, save, NULL_KEY);
     if(currentmenu == "spy")
     {
         llMessageLinked(LINK_SET, SUBMENU, submenu, id);
@@ -166,7 +145,6 @@ default
                 else if(message != " ")
                 {
                     llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
-                    //DialogSpy(id);
                 }
             }
         }

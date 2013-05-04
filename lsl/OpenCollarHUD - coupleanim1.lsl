@@ -50,13 +50,6 @@ string domanim;
 
 integer COMMAND_OWNER = 500;
 integer POPUP_HELP = 1001;
-integer HTTPDB_SAVE = 2000;// scripts send messages on this channel to have settings saved to httpdb
-                            // str must be in form of "token=value"
-integer HTTPDB_REQUEST = 2001;// when startup, scripts send requests for settings on this channel
-integer HTTPDB_RESPONSE = 2002;// the httpdb script will send responses on this channel
-integer HTTPDB_DELETE = 2003;// delete token from DB
-integer HTTPDB_EMPTY = 2004;// sent by httpdb script when a token has no value in the db
-
 integer MENUNAME_REQUEST = 3000;
 integer MENUNAME_RESPONSE = 3001;
 integer SUBMENU = 3002;
@@ -194,26 +187,6 @@ TimerMenu(key id)
     }    
     
 }
-
-// list FillMenu(list in)
-// {
-//     //adds empty buttons until the list length is multiple of 3, to max of 12
-//     while (llGetListLength(in) != 3 && llGetListLength(in) != 6 && llGetListLength(in) != 9 && llGetListLength(in) < 12)
-//     {
-//         in += [" "];
-//     }
-//     return in;
-// }
-
-// list RestackMenu(list in)
-// {
-//     //re-orders a list so dialog buttons start in the top row
-//     list out = llList2List(in, 9, 11);
-//     out += llList2List(in, 6, 8);
-//     out += llList2List(in, 3, 5);    
-//     out += llList2List(in, 0, 2);    
-//     return out;
-// }
 
 integer AnimExists(string anim)
 {
@@ -668,10 +641,6 @@ state ready
     
     timer()
     {
-//         if (timermode == "menu")
-//         {
-//             llListenRemove(listener);
-//         }
         StopAnims();
         llSetTimerEvent(0.0);       
     }
@@ -748,16 +717,4 @@ state ready
             }
         }
     }
-// /* 
-//     attach(key id)
-//     {
-//         if(id != NULL_KEY)
-//         {
-//             if(id != wearer)
-//             {
-//                 wearer = llGetOwner();
-//             }
-//             llRequestPermissions(wearer, PERMISSION_TRIGGER_ANIMATION);
-//         }
-//     }*/
 }

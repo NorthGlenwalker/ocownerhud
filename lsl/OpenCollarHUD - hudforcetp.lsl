@@ -1,13 +1,17 @@
 //on touch, give menu of LMs
 //on hearing number, request LM data
 //on getting LM data, give TP command
-
+//Currently only works within sim (NG)
 string parentmenu = "Main";
 string submenu = "TP";
 list localcmds = ["autotp"];
 key dataid;
 string currentmenu;
 string lmname;
+list menuids;//three strided list of avkey, dialogid, and menuname
+integer menustride = 3;
+string LMMENU = "LMMenu";
+string MAINMENU = "MainMenu";
 
 integer page = 0;
 integer pagesize = 12;
@@ -23,14 +27,6 @@ integer menuchannel;
 integer COMMAND_OWNER = 500;
 
 integer POPUP_HELP = 1001;
-
-integer HTTPDB_SAVE = 2000;//scripts send messages on this channel to have settings saved to httpdb
-                            //str must be in form of "token=value"
-integer HTTPDB_REQUEST = 2001;//when startup, scripts send requests for settings on this channel
-integer HTTPDB_RESPONSE = 2002;//the httpdb script will send responses on this channel
-integer HTTPDB_DELETE = 2003;//delete token from DB
-integer HTTPDB_EMPTY = 2004;//sent when a token has no value in the httpdb
-
 integer MENUNAME_REQUEST = 3000;
 integer MENUNAME_RESPONSE = 3001;
 integer SUBMENU = 3002;
@@ -39,9 +35,6 @@ integer MENUNAME_REMOVE = 3003;
 integer DIALOG = -9000;
 integer DIALOG_RESPONSE = -9001;
 integer DIALOG_TIMEOUT = -9002;
-
-//integer SET_SUB = -1000;
-//integer SEND_CMD = -1001;
 integer SEND_CMD_PICK_SUB = -1002;
 integer SEND_CMD_ALL_SUBS = -1003;
 integer SEND_CMD = -1001;
@@ -54,11 +47,6 @@ key autoTPsubKey;
 string autoTPsubName;
 string ALLSUBS = "*All*";
 integer autoTpALL = FALSE;
-
-list menuids;//three strided list of avkey, dialogid, and menuname
-integer menustride = 3;
-string LMMENU = "LMMenu";
-string MAINMENU = "MainMenu";
 
 
 debug(string str)
@@ -101,27 +89,22 @@ LMMenu(key id, integer page)
     // create a list
     list buttons;
     list utility;
-    string text = "Choose a destination.\n";
-    text += "You can add more destinations by putting more landmarks in my contents.";
+    string text = "Because of SL limitations you have to be within the same region to control a sub.\n";
+    text += "To send someone to a different Sim, you need to have a landmark in your Owners hud first.\n";
+    text += "You can then force them to that location BEFORE you Teleport yourself.\n";
+    text += "Or you can send a TP invite through IM's once you get there.\n";
+    text += "You can add more destinations by putting more landmarks in my contents.\n";
+    text += "Choose a destination.";
     
     text += "\n1 - " + CURRENT_LOCATION;
     buttons += ["1"];
     
     // add camera button
     text += "\n2 - " + CAMERA_LOCATION;
-    text += "Please be aware the tp may take up to 60 seconds plus sl lag to happen.";
     buttons += ["2"];
     
     integer num_lms = llGetInventoryNumber(INVENTORY_LANDMARK);
     integer n;
-
-
-//    if (num_lms > 9)  // changed limit to 9 since additional button used for cam
-//    {
-//        //we'll only show one page's worth of LMs.  If you want more, recode this
-//       llOwnerSay("I can only show the first 10 landmarks in inventory.  If you want more, you'll have to re-write my script.");
-//        num_lms = 9;
-//    }
 
     for (n=0;n<num_lms;n++)
     {
@@ -177,7 +160,7 @@ MainMenu(key id)
     
     currentmenu = "main";
     
-    if (autotp)
+/*    if (autotp)
     {
         buttons += ["AutoTP Off"];
         if(autoTpALL)
@@ -195,6 +178,7 @@ MainMenu(key id)
         buttons += ["AutoTP On"];
         text += "AutoTP is currently Off.\n";
     }
+    */
     text += "Choose an option.\n";
     buttons += ["TP Now"];
     utility = [UPMENU];   
@@ -248,69 +232,35 @@ default
         }
         else if (num == COMMAND_OWNER)
         {
-            if (str == "autotp on")
+/*            if (str == "autotp on")
             {
                 autotp = TRUE;
                  // as of now nothing is saved 
-                // llMessageLinked(LINK_THIS, HTTPDB_SAVE, "autotp=1", NULL_KEY);
                 llOwnerSay("Auto TP On.");
             }
             else if (str == "autotp off")
             {
                 autotp = FALSE;
-                 // as of now nothing is saved 
-                // llMessageLinked(LINK_THIS, HTTPDB_SAVE, "autotp=0", NULL_KEY);            
-                llOwnerSay("Auto TP Off.");            
+                 // as of now nothing is saved            
+                llOwnerSay("Auto TP Off.");        
             }            
-            else if (str == "tpallhere")
+            */
+             if (str == "tpallhere")
             {
                 TPAllHere();
             }
         }
-        // as of now nothing is saved so nothing restored either TODO?
-//        /*
-//        else if (num == HTTPDB_RESPONSE)
-//        {
-//            debug("https response complete string: " + str);
-//            list temp = llParseString2List(str, [":"], []);
-//            string token = llList2String(temp, 0);
-//            debug("https response token: " + token);
-//            if (token == "autotp=1")
-//            {
-//                autotp = TRUE;
-//                string forWho = llList2String(temp, 1);
-//                if (forWho == ALLSUBS)
-//                {
-//                    autoTpALL = TRUE;
-//                }
-//                else
-//                {
-//                    autoTpALL = FALSE;
-//                    integer index = llSubStringIndex(forWho, ",");
-//                    autoTPsubKey = (key)llGetSubString(forWho, 0, index -1);
-//                    autoTPsubName = llGetSubString(forWho, index + 1, -1);
-//                }
-//                        
-//            }
-//            else if (token == "autotp=0")
-//            {
-//                autoTpALL = FALSE;
-//                autotp = FALSE;
-//            }
-//        }
-//        */
         else if (num == LOCALCMD_REQUEST)
         {
             llMessageLinked(LINK_THIS, LOCALCMD_RESPONSE, llDumpList2String(localcmds, ","), NULL_KEY);
         }
-        else if (num == CMD_AUTO_TP)
+/*        else if (num == CMD_AUTO_TP)
         {
             autotp = TRUE;
             if(str == ALLSUBS)
             {
                 autoTpALL = TRUE;
                  // as of now nothing is saved 
-                // llMessageLinked(LINK_THIS, HTTPDB_SAVE, "autotp=1:" + str, NULL_KEY);
                 llOwnerSay("Auto TP On for all subs.");
             }
             else
@@ -324,12 +274,11 @@ default
                 autoTPsubKey = id;
                 autoTPsubName = str;
                  // as of now nothing is saved 
-                // llMessageLinked(LINK_THIS, HTTPDB_SAVE, "autotp=1:" + (string)autoTPsubKey + "," + autoTPsubName , NULL_KEY);
                 llOwnerSay("AUto TP On for " + autoTPsubName + ".");
             }
             MainMenu(wearer);
         }
-        
+  */      
         else if(num == DIALOG_RESPONSE)
         {                        
             integer menuindex = llListFindList(menuids, [id]);
@@ -353,7 +302,7 @@ default
                     {
                         LMMenu(id,page);
                     }
-                    else if (message == "AutoTP On")
+/*                    else if (message == "AutoTP On")
                     {
                         autotp = TRUE;
                         vector abspos = llGetPos() + llGetRegionCorner();
@@ -362,11 +311,11 @@ default
                     else if (message == "AutoTP Off")
                     {
                         autotp = FALSE;
-                        // -- as of now nothing is saved 
-                        // -- llMessageLinked(LINK_THIS, HTTPDB_SAVE, "autotp=0", NULL_KEY);            
+                        // -- as of now nothing is saved             
                         llOwnerSay("Auto TP Off.");          
                         MainMenu(id);                                      
                     }
+                    */
                     else if (message == UPMENU)
                     {
                         llMessageLinked(LINK_THIS, SUBMENU, parentmenu, id);
@@ -383,7 +332,6 @@ default
                         // -- we got message to TP the sub right here
                         vector abspos = llGetPos() + llGetRegionCorner();
                         llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, TPCmd(abspos), NULL_KEY);
-                        // -- llInstantMessage(llGetOwner(), "TPing " + subname + " to current location.");
                     }
                     else if ( message == "2" )
                     {

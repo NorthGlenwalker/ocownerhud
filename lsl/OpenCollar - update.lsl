@@ -1,8 +1,6 @@
 //Licensed under the GPLv2, with the additional requirement that these scripts remain "full perms" in Second Life.  See "OpenCollar License" for details.
 //on attach and on state_entry, http request for update
 
-// First generation updater for the SubAO and Owner Hud.  
-// Plans for this script: (3.5) -> Merge with collar updates from issue 760
 
 key wearer;
 
