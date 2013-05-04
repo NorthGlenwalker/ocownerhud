@@ -4,7 +4,7 @@ Let's work on the Owner Hud!
 Early Goals:
 ------------
 
-- Clean up orphaned code in the scripts.
+- Clean up orphaned code in the scripts. ---- Some clean up done.
 - Provide better commentary/documentation.
 - Arrange things to make it more easily for a broader spectrum of people with various skill levels to contribute to this project!
 
