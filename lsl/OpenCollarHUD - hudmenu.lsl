@@ -147,12 +147,10 @@ default
             }
             else if (button == "Leash")
             {
-                llMessageLinked(LINK_SET, COMMAND_OWNER,"leashmenu", id);
-                              /*
+ //               llMessageLinked(LINK_SET, COMMAND_OWNER,"leashmenu", id);
                                string cmd = "leashto " + (string)wearer + " handle";
                 llMessageLinked(LINK_THIS, SEND_CMD_NEARBY_SUBS, cmd,NULL_KEY);
                 llOwnerSay("Leashing nearby subs.");
-*/
                         }
             else if (llSubStringIndex(button,"Owner")>=0)
             {
