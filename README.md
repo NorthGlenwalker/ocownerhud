@@ -3,7 +3,7 @@ Let's work on the Owner Hud!
 
 Early Goals:
 ------------
-
+- Updated the RLV strip code in the cages to add the extra attach/wear points
 - Added a "help me with coding problems" file
 - Clean up orphaned code in the scripts. ---- Some clean up done. (NG)
 - Provide better commentary/documentation.
