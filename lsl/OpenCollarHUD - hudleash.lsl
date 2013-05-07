@@ -34,6 +34,7 @@ string parentmenu = "Main";
 string submenu = "LeashMenu";
 string Leash = "Leash";
 string Follow = "Follow";
+string Release = "Release";
 string currentmenu;
 string subName;
 
@@ -155,6 +156,12 @@ default
                  string message = "follow " + (string)wearer + " handle";
                  llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
                 }
+                if(message == Release)
+                {//reformat the "message" to the correct format to follow someone then pick who. 
+                string message = "unleash";
+                    llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
+                }
+//left in as a catch all to add other commands later                
                 else if(message != " ")
                 {//everything else just send the command to the picked sub. 
                     llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
