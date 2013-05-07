@@ -31,8 +31,9 @@ integer LOCALCMD_RESPONSE = -2001;
 string UPMENU = "^";
 string MORE = ">";
 string parentmenu = "Main";
-string submenu = "Leashmenu";
-string leash = "leash";
+string submenu = "LeashMenu";
+string Leash = "Leash";
+string Follow = "Follow";
 string currentmenu;
 string subName;
 
@@ -74,8 +75,9 @@ Dialogleash(key id)
     string text = "Grab the leash of one or all subs\n";
     text += "UnLeash a/all subs you are attached to.\n";
     
-    buttons += ["leash"];    
-    buttons += ["Unleash"];    
+    buttons += ["Leash"];    
+    buttons += ["Release"];
+    buttons += ["Follow"];            
     list utility = [UPMENU];
     menuid = Dialog(id, text, buttons, utility, 0);
 }
@@ -143,12 +145,16 @@ default
                     llMessageLinked(LINK_SET, SUBMENU, parentmenu, id);
                 }
                 
-                if(message == leash)
+                if(message == Leash)
                 {//reformat the "message" to the correct format to leash someone then pick who.
                  string message = "leashto " + (string)wearer + " handle";
                  llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
                 }
-                
+                if(message == Follow)
+                {//reformat the "message" to the correct format to follow someone then pick who.
+                 string message = "follow " + (string)wearer + " handle";
+                 llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
+                }
                 else if(message != " ")
                 {//everything else just send the command to the picked sub. 
                     llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
