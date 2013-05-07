@@ -1,0 +1,13 @@
+Because of SL limitations you have to be within the same region to control a wearer.
+
+To send someone to a different Sim, you need to have a landmark in your Owners hud first.
+You can then force them to that location BEFORE you Teleport yourself.
+You can add up to 10 Landmarks for locations to the HUD, just drop them into the HUD's contents through edit.
+This is usefull to send multiple subs to the same landmark at once.
+
+
+Or you can send a TP invite through IM's once you get there.
+
+
+1st draft
+North Glenwalker
