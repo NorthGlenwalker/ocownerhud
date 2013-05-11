@@ -2,26 +2,22 @@
     //SyncSub gets the wearer's current camera pos and rot, then sends camto <pos> <rot> command to sub on object channel
     //Sync2Sub picks a channel, sets up a listener on it, chats out the camdump command, listens for pos and rot, then sets the dom's cam when it hears back
     //Clear - clears the dom's camera settings
-    
+//Code clean-up by North Glenwalker ready for full release
+      
 string mymenu = "Camera";
 string parentmenu = "Main";    
     
 //MESSAGE MAP
 integer COMMAND_OWNER = 500;
-
 integer POPUP_HELP = 1001;
-
 integer SUB_LIST = 2005;
-
 integer MENUNAME_REQUEST = 3000;
 integer MENUNAME_RESPONSE = 3001;
 integer SUBMENU = 3002;
 integer MENUNAME_REMOVE = 3003;
-
 integer DIALOG = -9000;
 integer DIALOG_RESPONSE = -9001;
 integer DIALOG_TIMEOUT = -9002;
-
 integer SET_SUB = -1000;
 integer SEND_CMD = -1001;
 integer SEND_CMD_PICK_SUB = -1002;
@@ -29,13 +25,10 @@ integer SEND_CMD_ALL_SUBS = -1003;
 integer CMD_AUTO_TP = -1004;
 integer SEND_CMD_SUB = -1005;
 integer SEND_CMD_NEARBY_SUBS = -1006;
-
 integer LOCALCMD_REQUEST = -2000;
 integer LOCALCMD_RESPONSE = -2001;
-
 string UPMENU = "^";
 string MORE = ">";
-
 //these two flags are used for overloading the timer to handle both menu timeouts and collar pos/rot listen timeouts.
 integer menutimeout;
 integer timeout = 60;
@@ -47,7 +40,6 @@ list subs;
 integer syncingsubs;//true if we're broadcasting camto commands to subs
 key currentsub;//sub we're currently listening to if syncing from one
 float repeat = 0.5;
-
 //menu commands
 string SYNCSUB = "SyncSub";
 string SYNCSELF = "SyncSelf";
@@ -80,12 +72,11 @@ key Dialog(key rcpt, string prompt, list choices, list utilitybuttons, integer p
 }
 Menu(key id)
 {
-    string text = "Pick an option.\nSyncSub - make the sub see what you see\mSyncSelf - See what the sub is looking at.\n";
+    string text = "Pick an option.\n SyncSub - Make the sub see what you see\n SyncSelf - See what the sub is looking at.\n";
     list buttons = [SYNCSUB, CLEARSUB, SYNCSELF, CLEARSELF];
     list utility = [UPMENU];
     menuid = Dialog(llGetOwner(), text, buttons, utility, 0);
 }
-
 
 string str_replace(string src, string from, string to)
 {//replaces all occurrences of 'from' with 'to' in 'src'.
@@ -99,10 +90,6 @@ string str_replace(string src, string from, string to)
         integer to_pos = ~llSubStringIndex(buffer, from);
         if(to_pos)
         {
-//            b_pos -= to_pos;
-//            src = llInsertString(llDeleteSubString(src, b_pos, b_pos + len), b_pos, to);
-//            b_pos += to_len;
-//            buffer = llGetSubString(src, (-~(b_pos)), 0x8000);
             buffer = llGetSubString(src = llInsertString(llDeleteSubString(src, b_pos -= to_pos, b_pos + len), b_pos, to), (-~(b_pos += to_len)), 0x8000);
             jump loop;
         }
@@ -122,10 +109,6 @@ CamFocus(vector campos, rotation camrot)
     vector posStep = (campos - startpos) / steps;
  
     //Calculate camera rotation increments
-    //rotation rotStep = (camrot - startrot);
-    //rotStep = <rotStep.x / steps, rotStep.y / steps, rotStep.z / steps, rotStep.s / steps>;
- 
- 
     float cStep = 0.0; //Loop through motion for cStep = current step, while cStep <= Total steps
     for(; cStep <= steps; ++cStep)
     {
@@ -172,7 +155,6 @@ default
     {
         llResetScript();
     }
-    
     state_entry()
     {
         if (llGetAttached())
@@ -181,7 +163,6 @@ default
         }
         llMessageLinked(LINK_SET, MENUNAME_RESPONSE, parentmenu + "|" + mymenu, "");
     }
-    
     run_time_permissions(integer perms)
     {
         if (perms & PERMISSION_CONTROL_CAMERA)
@@ -189,7 +170,6 @@ default
             llClearCameraParams();
         }
     }
-
     link_message(integer sender, integer num, string str, key id)
     {
         if (num == MENUNAME_REQUEST && str == parentmenu)
@@ -246,7 +226,6 @@ default
                 {
                     //need to tell sub's collar to stop broadcasting
                     llMessageLinked(LINK_SET, SEND_CMD_SUB, "camdump -1 0", currentsub);
-                    
                     //and also stop ourself from listening
                     llListenRemove(collarlistener);
                     collarlistener = 0;
@@ -265,12 +244,10 @@ default
             }
         }
     }
-    
     listen(integer channel, string name, key id, string message)
     {
         if (channel == collarchannel)
-        {
-            //we heard the sub's collar give a pos/rot.  sanity check them and sync
+        { //we heard the sub's collar give a pos/rot.  sanity check them and sync
             if (~llListFindList(subs, [(string)llGetOwnerKey(id)]))
             {
                 currentsub = llGetOwnerKey(id);
@@ -285,7 +262,6 @@ default
             }
         }
     }
-    
     timer()
     {
         if (syncingsubs)

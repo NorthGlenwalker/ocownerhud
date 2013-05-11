@@ -1,9 +1,9 @@
 //on touch, give menu of LMs
 //on hearing number, request LM data
 //on getting LM data, give TP command
-//Currently only works within sim (NG)
+//Currently only works within Region (NG)
 string parentmenu = "Main";
-string submenu = "TP";
+string submenu = "TelePort";
 list localcmds = ["autotp"];
 key dataid;
 string currentmenu;
@@ -89,11 +89,7 @@ LMMenu(key id, integer page)
     // create a list
     list buttons;
     list utility;
-    string text = "Because of SL limitations you have to be within the same region to control a sub.\n";
-    text += "To send someone to a different Sim, you need to have a landmark in your Owners hud first.\n";
-    text += "You can then force them to that location BEFORE you Teleport yourself.\n";
-    text += "Or you can send a TP invite through IM's once you get there.\n";
-    text += "You can add more destinations by putting more landmarks in my contents.\n";
+    string text = "";
     text += "Choose a destination.";
     
     text += "\n1 - " + CURRENT_LOCATION;
@@ -160,27 +156,9 @@ MainMenu(key id)
     
     currentmenu = "main";
     
-/*    if (autotp)
-    {
-        buttons += ["AutoTP Off"];
-        if(autoTpALL)
-        {
-            
-            text += "AutoTP is currently On for all subs.\n";
-        }
-        else
-        {
-            text += "AutoTP is currently On for " + autoTPsubName + ".\n";
-        }
-    }
-    else
-    {
-        buttons += ["AutoTP On"];
-        text += "AutoTP is currently Off.\n";
-    }
-    */
     text += "Choose an option.\n";
     buttons += ["TP Now"];
+    buttons += ["TP Help"];
     utility = [UPMENU];   
 
     key menuid = Dialog(id, text, buttons, utility, page);
@@ -230,21 +208,14 @@ default
         {
             MainMenu(wearer);
         }
+//NG        
+            else if (str == "TPMenus")
+            {
+                LMMenu(id,page);
+            }  
+//NG   
         else if (num == COMMAND_OWNER)
         {
-/*            if (str == "autotp on")
-            {
-                autotp = TRUE;
-                 // as of now nothing is saved 
-                llOwnerSay("Auto TP On.");
-            }
-            else if (str == "autotp off")
-            {
-                autotp = FALSE;
-                 // as of now nothing is saved            
-                llOwnerSay("Auto TP Off.");        
-            }            
-            */
              if (str == "tpallhere")
             {
                 TPAllHere();
@@ -254,31 +225,6 @@ default
         {
             llMessageLinked(LINK_THIS, LOCALCMD_RESPONSE, llDumpList2String(localcmds, ","), NULL_KEY);
         }
-/*        else if (num == CMD_AUTO_TP)
-        {
-            autotp = TRUE;
-            if(str == ALLSUBS)
-            {
-                autoTpALL = TRUE;
-                 // as of now nothing is saved 
-                llOwnerSay("Auto TP On for all subs.");
-            }
-            else
-            {
-                autoTpALL = FALSE;
-                if(id == wearer)
-                {
-                    llOwnerSay("Sorry you cannot turn on AutoTP for yourself.");
-                    return;
-                }
-                autoTPsubKey = id;
-                autoTPsubName = str;
-                 // as of now nothing is saved 
-                llOwnerSay("AUto TP On for " + autoTPsubName + ".");
-            }
-            MainMenu(wearer);
-        }
-  */      
         else if(num == DIALOG_RESPONSE)
         {                        
             integer menuindex = llListFindList(menuids, [id]);
@@ -293,29 +239,17 @@ default
                 //remove stride from menuids
                 //we have to subtract from the index because the dialog id comes in the middle of the stride
                 menuids = llDeleteSubList(menuids, menuindex - 1, menuindex - 2 + menustride);  
-                
-                //debug((string)id+"("+llKey2Name(id)+") :: "+message);
-                
+                                
                 if(menutype == MAINMENU)
                 {     
                     if (message == "TP Now")
                     {
                         LMMenu(id,page);
                     }
-/*                    else if (message == "AutoTP On")
-                    {
-                        autotp = TRUE;
-                        vector abspos = llGetPos() + llGetRegionCorner();
-                        llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "autotp|"+ TPCmd(abspos), NULL_KEY);
-                    }
-                    else if (message == "AutoTP Off")
-                    {
-                        autotp = FALSE;
-                        // -- as of now nothing is saved             
-                        llOwnerSay("Auto TP Off.");          
-                        MainMenu(id);                                      
-                    }
-                    */
+                 else if (message == "TP Help")
+            {
+                llGiveInventory(id, "OpenCollar Owner HUD TPHelp");
+            }
                     else if (message == UPMENU)
                     {
                         llMessageLinked(LINK_THIS, SUBMENU, parentmenu, id);

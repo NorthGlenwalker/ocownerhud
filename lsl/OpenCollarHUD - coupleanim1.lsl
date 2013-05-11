@@ -3,8 +3,6 @@
 // string parentmenu = "Animations";
 string parentmenu = "Main"; // changed for Owner HUD
 string submenu = "Couples";
-// string UPMENU = "?";
-// string MORE = "?";
 string UPMENU = "^";
 string MORE = ">";
 integer listener;
@@ -26,7 +24,7 @@ string noteCard2Read;
 
 list animcmds;// 1-strided list of strings that will trigger
 list animsettings;// 4-strided list of subanim|domanim|offset|text, running parallel to animcmds, 
-                  // such that animcmds[0] corresponds to animsettings[0:3], and animcmds[1] corresponds to animsettings[4:7], etc
+// such that animcmds[0] corresponds to animsettings[0:3], and animcmds[1] corresponds to animsettings[4:7], etc
                   
 key cardid1;// used to detect whether coupleanims card has changed
 key cardid2;
@@ -238,10 +236,6 @@ string str_replace(string src, string from, string to)
         integer to_pos = ~llSubStringIndex(buffer, from);
         if(to_pos)
         {
-//            b_pos -= to_pos;
-//            src = llInsertString(llDeleteSubString(src, b_pos, b_pos + len), b_pos, to);
-//            b_pos += to_len;
-//            buffer = llGetSubString(src, (-~(b_pos)), 0x8000);
             buffer = llGetSubString(src = llInsertString(llDeleteSubString(src, b_pos -= to_pos, b_pos + len), b_pos, to), (-~(b_pos += to_len)), 0x8000);
             jump loop;
         }
@@ -377,7 +371,6 @@ default
                     {
                          index = index * 4;
                         // add cmd, and text
-                        // animcmds = llListReplaceList(animcmds, llList2List(params, 0, 0), index, index);
                         // anim names, offset, 
                         animsettings = llListReplaceList(animsettings, llList2List(params, 1, 3), index, index + 2);
                         // text.  this has to be done by casting to string instead of list2list, else lines that omit text will throw off the stride

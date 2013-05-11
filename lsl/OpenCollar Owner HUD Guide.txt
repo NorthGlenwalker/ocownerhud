@@ -1,6 +1,6 @@
-﻿Guide for the OpenCollar Owner HUD  Vers. 2.0
+Guide for the OpenCollar Owner HUD  Vers. 3.800
 
-􀀀
+??
 
 _______________________________________
 
@@ -26,10 +26,10 @@ Chat commands (default channel is 7):
 
 The 6 HUD Buttons: (Left to Right when at default setting)
 
-1) Leash - (chain symbol) Leashes ALL subs around you (where you have collar access, including group and open access) to you.
+1) Leash - (chain symbol) Opens the Leash menu.
 2) Couples Animations (silhouette of a couple) Opens the couples animation menu.
-3) Cage Rezzer - (round cage) Searches for RLV enabled AV's, presents a menu, then summons a cage on the chosen AV.  The victim has the normal RLV accept/refuse type options.
-4) Teleport Subs - (arrow down) TelePorts a single or all your registered subs to your current location if they are within the same Sim.
+3) Cage Rezzer - (round cage) Searches for RLV enabled AV's, presents a menu, then summons a cage on the chosen AV.  The victim has the normal RLV accept/refuse type options. From the cage certain RLV functions can then be carried out.
+4) Teleport Subs - (arrow down) Opens up the Teleport sub menu.
 5) Main Menu - (square menu sheet) Opens up the HUDs main menu.
 6) Dock/Hide - (nadu girl) Docks/hides the five buttons. Pressing it again will undock/show the buttons.
 
@@ -37,13 +37,13 @@ The 6 HUD Buttons: (Left to Right when at default setting)
 
 <<The HUD Main menu:>>
 
-[CollarMenu] - Opens ALL collar menu's from your subs around.
+[CollarMenu] - Allows you to select from any registered collar menu's from your subs around.
 [Couples] - Opens the couple animation menu to choose an animation.
 [LeashMenu] - Opens the Leash/Unleash menu
 [Spy] - Opens the spy menu to set spy settings.
 [Subs] - Gives you a menu with a list of your subs and a button to dump the list into chat.
-[TelePort] - Opens the tp menu. 
-[Options] - Opens the new 1.7 HUD style/position/order options.
+[TelePort] - Opens the Upper TP menu. 
+[Options] - Opens the HUD style/position/order options.
 
 >Subs - menu:<
 [List subs] -  dump the list of subs into chat

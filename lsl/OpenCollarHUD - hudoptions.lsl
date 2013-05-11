@@ -374,7 +374,6 @@ default
                         text += "change the color of the HUD buttons.\n";
                         if(tintable) text+="Tint will allow you to change the HUD color\nto various shades via the 'Tint' menu.\n";
                         if(!tintable)text += "If [White] is selected, an extra menu named 'Tint' will appear in this menu.\n";
-                        // -- text += "This menu will time out in " + (string)timeout + " seconds.";
                     
                         list buttons = [];
                         buttons += ["Gray Square"];
@@ -464,7 +463,6 @@ default
                         string text = "Select the color you wish to tint the HUD.\n";
                         text += "If you don't see a color you enjoy, simply edit\n";
                         text += "and select a color under the menu you wish.\n";
-                        // -- text += "This menu will time out in " + (string)timeout + " seconds.";
                         
                         list buttons = [];
                         buttons += ["Orange"];

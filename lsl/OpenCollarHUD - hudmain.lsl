@@ -1,13 +1,4 @@
-/*
-string broadcasturl = "http://web.mycollar.org/lookup/get/";
-string cmdurl = "http://web.mycollar.org/";
-string dburl = "http://web.mycollar.org/owners/getsubspages";
-string removeurl = "http://data.mycollar.org/removesub/";
 
-key broadcast_request;
-key command_request;
-string currenturl = "";
-*/
 key currentsub = "";
 
 string g_sDialogUrl;
@@ -126,7 +117,6 @@ SendIM(key dest, string message)
 
 SendCmd(key id, string cmd, integer all)
 {
-    // string subName = llKey2Name(id);
     subname = llList2String(subs,(llListFindList(subs,[(string)id]))+1);
     if (InSim(id))
     {
@@ -150,7 +140,6 @@ SendNearbyCmd(string cmd)
         if(id != wearer && InSim(id)) //prevent to send commands to yourself, don't expose out-of-sim subs
         {
             SendCmd(id, cmd, TRUE);
-            //llSay(objectchannel, cmd);
         }
     }
 }

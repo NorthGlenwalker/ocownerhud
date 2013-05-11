@@ -73,8 +73,9 @@ Dialogleash(key id)
 {
     currentmenu = "leashmenu";
     list buttons ;
-    string text = "Grab the leash of one or all subs\n";
-    text += "UnLeash a/all subs you are attached to.\n";
+    string text = "[Leash] Grab the leash of one or all subs\n";
+    text += "[Release} UnLeash a/all subs you are attached to.\n";
+    text += "[Follow] Force the sub to follow you without leash.\n";
     
     buttons += ["Leash"];    
     buttons += ["Release"];
@@ -130,12 +131,15 @@ default
         else if (auth == SUBMENU && str == submenu)
         {
             Dialogleash(id);
-        }
+        }    
+            else if (str == "LeashMenus")
+            {
+                Dialogleash(id);
+            }    
         else if (auth == DIALOG_RESPONSE)
         {
             if (id == menuid)
             {
-                
                 list menuparams = llParseString2List(str, ["|"], []);
                 id = (key)llList2String(menuparams, 0);
                 string message = llList2String(menuparams, 1);
@@ -160,12 +164,7 @@ default
                 {//reformat the "message" to the correct format to follow someone then pick who. 
                 string message = "unleash";
                     llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
-                }
-//left in as a catch all to add other commands later                
-                else if(message != " ")
-                {//everything else just send the command to the picked sub. 
-                    llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
-                }
+                }               
             }
         }
         else if (auth == DIALOG_TIMEOUT)

@@ -266,7 +266,7 @@ CleanList()
     for (n = length - stridelength; n >= 0; n -= stridelength)
     {
         integer dietime = llList2Integer(menus, n + 3);
-        //debug("dietime: " + (string)dietime);
+
         if (now > dietime)
         {
             debug("menu timeout");
@@ -298,7 +298,7 @@ ClearUser(key rcpt)
 
 debug(string str)
 {
-    //
+       // llOwnerSay(llGetScriptName() + ": " + str);
 }
 
 default

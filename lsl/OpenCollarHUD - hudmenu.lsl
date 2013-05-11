@@ -71,7 +71,7 @@ key Dialog(key rcpt, string prompt, list choices, list utilitybuttons, integer p
 Menu(string name, key id)
 {
     integer menuindex = llListFindList(menunames, [name]);
-    //llOwnerSay((string)menuindex);
+    
     if (menuindex != -1)
     {
         //this should be multipage in case there are more than 12 submenus, but for now single page
@@ -85,7 +85,7 @@ Menu(string name, key id)
 
 debug(string str)
 {
-    //
+       // llOwnerSay(llGetScriptName() + ": " + str);
 }
 
 default
@@ -127,12 +127,8 @@ default
 
             if (button == "TPSubs")
             {
-                vector abspos = llGetPos() + llGetRegionCorner();
-                string _cmd = "tpto:" + (string)abspos.x + "/" + (string)abspos.y + "/" + (string)abspos.z + "=force";
-
-                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, _cmd , NULL_KEY);
-
-            }
+                llMessageLinked(LINK_SET, COMMAND_OWNER,"TPMenus", id);
+            }         
             else if (button == "Menu")
             {
                 Menu("Main", id);
@@ -147,11 +143,8 @@ default
             }
             else if (button == "Leash")
             {
- //               llMessageLinked(LINK_SET, COMMAND_OWNER,"leashmenu", id);
-                               string cmd = "leashto " + (string)wearer + " handle";
-                llMessageLinked(LINK_THIS, SEND_CMD_NEARBY_SUBS, cmd,NULL_KEY);
-                llOwnerSay("Leashing nearby subs.");
-                        }
+                llMessageLinked(LINK_SET, COMMAND_OWNER,"LeashMenus", id);
+            }
             else if (llSubStringIndex(button,"Owner")>=0)
             {
                 llMessageLinked(LINK_SET, COMMAND_OWNER,"hide",NULL_KEY);
