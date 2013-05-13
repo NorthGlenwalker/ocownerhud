@@ -1,25 +1,18 @@
-
 key currentsub = "";
-
 string g_sDialogUrl;
-
 list cmdqueue;// requset, id, cmd, type
-
 integer checkdelay = 600;
 integer debugging=FALSE; // show debug messages
-
 list subs;//strided list in the form key,name
 string tmpname; //used temporarily to store new owner or secowner name while retrieving key
 list localcmds = ["removesub","listsubs", "reloadlist","help"];//these will be told to the listener on LOCALCMD_REQUEST, so it knows not to pass them through the remote
 
 string parentmenu = "Main";
 string submenu = "Subs";
-
 key subkey = NULL_KEY;
 string subname;
 
 key queueid;
-
 integer listenchannel = 802930;//just something i randomly chose
 integer picksubchannel = 3264589;
 integer removesubchannel = 32645891;
@@ -49,26 +42,23 @@ integer SEND_CMD_ALL_SUBS = -1003;
 integer CMD_AUTO_TP = -1004;
 integer SEND_CMD_SUB = -1005;
 integer SEND_CMD_NEARBY_SUBS = -1006;
-
 integer LOCALCMD_REQUEST = -2000;
 integer LOCALCMD_RESPONSE = -2001;
-
 integer DIALOG_URL = -2002;
 
 string UPMENU = "^";
 string MORE = ">";
-
 string listsubs = "List Subs";
 string removesub="Remove Sub";
 string reloadlist="Reload Subs";
 string scansubs="Scan Subs";
-
+string cmd1=""; //NG This should be blank to start with
 string ALLSUBS = "*All*";
 string currentmenu;
 key removedSub;
 key wearer;
 string wearerName;
-integer isAutoTPCommand = FALSE;
+
 list menuids;//three strided list of avkey, dialogid, and menuname
 integer menustride = 3;
 // Use these to keep track of your current menu
@@ -109,24 +99,17 @@ Popup(key id, string message)
     llDialog(id, message, [], 298479);
 }
 
-SendIM(key dest, string message)
-{ // I know this wrapper function looks lame, but it's here so we can transition to IM slaves driven by link message, if need be.
-    // oh and it's legacy code from the collar, where we used to do that.
-    llInstantMessage(dest, message);
-}
-
 SendCmd(key id, string cmd, integer all)
 {
     subname = llList2String(subs,(llListFindList(subs,[(string)id]))+1);
     if (InSim(id))
     {
-        cmd = (string)id + ":" + cmd;
-        llRegionSay(getPersonalChannel(id,1111), cmd);
-        if(!all)
-        {
-            llOwnerSay("Sending command '" + cmd + " to " + subname);
-        }
-        debug("llRegionSaying " + cmd);
+        cmd1 = cmd; //make a copy of the cmd string before it gets altered
+        cmd = (string)id + ":" + cmd; //Adding uuid and : to start of cmd string
+        llRegionSayTo(id,getPersonalChannel(id,1111), cmd); //changed from llRegonSay
+
+            llOwnerSay("Sending to "+ llKey2Name(id) +"'s collar - "+ cmd1); //make it look nice on the screen for owners, now it looks nice we can display all sent commands to all subs.
+            cmd1 ="";//Clear the cmd string ready for next time
     }
 }
 
@@ -160,7 +143,6 @@ SendAllCmd(string cmd)
 
 AddSub(key id, string name)
 {
-        
     if (llListFindList(subs,[id])!=-1) return;
     if( llStringLength(name) >= 24) name=llStringTrim(llGetSubString(name, 0, 23),STRING_TRIM);
     subs+=[id,name,"***","***"];
@@ -205,7 +187,6 @@ key Dialog(key rcpt, string prompt, list choices, list utilitybuttons, integer p
 SubMenu(key id) // Single page menu
 {
     string text = "Pick an option.";
-
     //list subs in prompt just fyi
     integer n;
     integer stop = llGetListLength(subs);
@@ -218,7 +199,6 @@ SubMenu(key id) // Single page menu
     list buttons;
     //add sub
     buttons += [listsubs,removesub,scansubs];
-
     //parent menu
     list utility = [UPMENU];
     
@@ -228,7 +208,7 @@ SubMenu(key id) // Single page menu
          text = llGetSubString(text,0,510);
      }
     key menuid = Dialog(id, text, buttons, utility, 0);
-    
+
     // UUID , Menu ID, Menu
     list newstride = [id, menuid, MAINMENU];
     
@@ -278,7 +258,7 @@ PickSubMenu(key id, integer page) // Multi-page menu
 
 RemoveSubMenu(key id, integer page) // Multi-page menu
 {
-    string text = "Pick the sub you wish to remove from your hud. This will also delete you from the owners of the collar.";
+    string text = "Pick the sub you wish to remove from your hud. This will also delete you as the owner of the collar.";
 
     //add subs
     integer n;
@@ -387,32 +367,21 @@ default
         }
         else if (num == SEND_CMD_PICK_SUB)
         {
-            //if only one sub in list, send to that one
-            //else give a sub menu and send cmd to the sub picked
+            //give a sub menu and send cmd to the sub picked
             integer length = llGetListLength(subs);
             if (length > 2)
             {
-                if(llGetSubString(str, 0, 6) == "autotp|")
-                {
-                    pendingcmd = llGetSubString(str, 6, -1);
-                    isAutoTPCommand = TRUE;
-                }
-                else
-                {
-                    pendingcmd = str;
-                    isAutoTPCommand = FALSE;
-                }
+                pendingcmd = str;
                 PickSubMenu(wearer,0);
             }
             else if (length == 2)
             {
                 key sub = (key)llList2String(subs, 0);
-                //string name = llList2String(subs, 1);
                 SendCmd(sub, str, FALSE);
             }
             else
             {
-                //you have 0 subs in list (empty), or 1 (which shouldn't ever happen)
+                //you have 0 subs in list (empty)
                 llMessageLinked(LINK_THIS, POPUP_HELP, "Cannot send command because you have no subs listed.  Choose \"Scan Subs\" in the Subs menu after being set as owner or secowner on an OpenCollar.", wearer);
             }
 
@@ -502,27 +471,13 @@ default
                     }
                     else if (message == ALLSUBS)
                     {
-                        if(isAutoTPCommand)
-                        {
-                            llMessageLinked(LINK_THIS, CMD_AUTO_TP, message, NULL_KEY);
-                        }
-                        else
-                        {
                             SendAllCmd(pendingcmd);
-                        }
                     }
                     else if (index != -1)
                     {
                         subname = message;
                         key sub = (key)llList2String(subs, index - 1);
-                        if(isAutoTPCommand)
-                        {
-                            llMessageLinked(LINK_THIS, CMD_AUTO_TP, message, sub);
-                        }
-                        else
-                        {
-                            SendCmd(sub, pendingcmd, FALSE);
-                        }
+                        SendCmd(sub, pendingcmd, FALSE);
                     }
                 }
             }
