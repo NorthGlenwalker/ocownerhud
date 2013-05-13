@@ -20,28 +20,24 @@ integer COMMAND_WEARER = 503;
 integer COMMAND_EVERYONE = 504;
 integer CHAT = 505;
 integer COMMAND_UPDATE = 10001;
-
 integer POPUP_HELP = 1001;
-
 integer MENUNAME_REQUEST = 3000;
 integer MENUNAME_RESPONSE = 3001;
 integer SUBMENU = 3002;
 integer MENUNAME_REMOVE = 3003;
-
 integer DIALOG = -9000;
 integer DIALOG_RESPONSE = -9001;
 integer DIALOG_TIMEOUT = -9002;
-
 integer SET_SUB = -1000;
 integer SEND_CMD = -1001;
 integer SEND_CMD_PICK_SUB = -1002;
 integer SEND_CMD_ALL_SUBS = -1003;
 integer SEND_CMD_NEARBY_SUBS = -1006;
-
 integer LOCALCMD_REQUEST = -2000;
 integer LOCALCMD_RESPONSE = -2001;
 
 string UPMENU = "^";
+string rlv = "rlv";
 key wearer;
 key menuid;
 
@@ -71,7 +67,7 @@ key Dialog(key rcpt, string prompt, list choices, list utilitybuttons, integer p
 Menu(string name, key id)
 {
     integer menuindex = llListFindList(menunames, [name]);
-    
+
     if (menuindex != -1)
     {
         //this should be multipage in case there are more than 12 submenus, but for now single page
@@ -85,7 +81,7 @@ Menu(string name, key id)
 
 debug(string str)
 {
-       // llOwnerSay(llGetScriptName() + ": " + str);
+    //
 }
 
 default
@@ -106,8 +102,9 @@ default
                 llMessageLinked(LINK_THIS, MENUNAME_RESPONSE, name + "|" + UPMENU, NULL_KEY);
             }
         }
-        //add "CollarMenu" button to main menu
+        //add "CollarMenu" and RLVMenu buttons to main menu
         llMessageLinked(LINK_THIS, MENUNAME_RESPONSE, "Main|CollarMenu", NULL_KEY);
+        llMessageLinked(LINK_THIS, MENUNAME_RESPONSE, "Main|UnDressMenu", NULL_KEY);
     }
 
     touch_start(integer num)
@@ -205,7 +202,11 @@ default
             }
             else if (str == "CollarMenu")
             {
-                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "menuto " + (string)wearer, NULL_KEY);
+                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "menu", NULL_KEY);
+            }
+            else if (str == "UnDressMenu")
+            {
+                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "undress", NULL_KEY);
             }
         }
         else if (num == COMMAND_OWNER)
