@@ -1,9 +1,13 @@
 Let's work on the Owner Hud!
 ===========================
 
-New Goals:
+New Goals: (3.840)
 ------------
-- New collar link direct to RLV main menu
+- New collar link direct to RLV main menu - Update linking into Un/Dress menu instead, Hud section writen in - Done (NG)
+- - Requested hook into Un/Dress Menu from Joy, along with change the main menu hook from "menuto" to "menu", this change will make the Owner hud incompatable with <3.839 collars
+- Change llRegionSay -> llRegionSayTo - Done (NG)
+- Remove all the AutoTP code since we no longer use this option in the Hud - Done (NG)
+- Adjusted the llOwnerSay string to be more descriptive by using Key2Name - EG when access a sub called sub123 main collar menu it will respond - "Sending to Sub123 Resident's collar - menu" - Done (NG)
 
 3.800 Owners hud finished items:
 ---------------------------------
