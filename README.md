@@ -4,10 +4,13 @@ Let's work on the Owner Hud!
 New Goals: (3.900)
 ------------
 - New collar link direct to RLV main menu - Update linking into Un/Dress menu instead, Hud section writen in - Done (NG)
-- - Requested hook into Un/Dress Menu from Joy, along with change the main menu hook from "menuto" to "menu", this change will make the Owner hud incompatable with <3.840 collars (Joy has removed the old "menuto" code section as bad coding and rewritten
+- - Requested hook into Un/Dress Menu from Joy, along with change the main menu hook from "menuto" to "menu", this change will make the Owner hud incompatable with <3.840 collars (Joy has removed the old "menuto" code section as bad coding and rewritten) whole new "auth" system writen into collar, hud changed to reflect this.
 - Change llRegionSay -> llRegionSayTo - Done (NG)
 - Remove all the AutoTP code since we no longer use this option in the Hud (Why did we have an option in the hud to turn AutoTP on and off?) - Done (NG)
 - Adjusted the llOwnerSay string to be more descriptive by using Key2Name - EG when access to a sub called sub123, the main collar menu will respond - "Sending to Sub123 Resident's collar - menu" - Done (NG)
+- Added "post" command to leash menu to bring up the collar "post menu" to display items to leash the collar to - Done NG
+- TP to LM no longer works as in RLV the ":" is belin used to split code. Awaiting new replacement chr$ from Joy
+- removed colon from "command send" script and added to each button cmd string to enable easy TP to LM change - Done NG
 
 3.800 Owners hud finished items:
 ---------------------------------
