@@ -14,16 +14,13 @@ integer MENUNAME_REQUEST = 3000;
 integer MENUNAME_RESPONSE = 3001;
 integer SUBMENU = 3002;
 integer MENUNAME_REMOVE = 3003;
-
 integer DIALOG = -9000;
 integer DIALOG_RESPONSE = -9001;
 integer DIALOG_TIMEOUT = -9002;
-
 integer SET_SUB = -1000;
 integer SEND_CMD = -1001;
 integer SEND_CMD_PICK_SUB = -1002;
 integer SEND_CMD_ALL_SUBS = -1003;
-
 integer LOCALCMD_REQUEST = -2000;
 integer LOCALCMD_RESPONSE = -2001;
 
@@ -35,6 +32,7 @@ string submenu = "LeashMenu";
 string Leash = "Leash";
 string Follow = "Follow";
 string Release = "Release";
+string Post = "Post";
 string currentmenu;
 string subName;
 
@@ -73,13 +71,15 @@ Dialogleash(key id)
 {
     currentmenu = "leashmenu";
     list buttons ;
-    string text = "[Leash] Grab the leash of one or all subs\n";
-    text += "[Release} UnLeash a/all subs you are attached to.\n";
-    text += "[Follow] Force the sub to follow you without leash.\n";
+    string text = "[Leash] Grab the leash of a/all sub(s)\n";
+    text += "[Follow] Force a/all sub(s) to follow you without leash.\n";
+    text += "[Post] Brings up the collar 'post' menu, so you may leash your sub to an item, like a leash post.\n";
+    text += "[Release] UnLeash a/all subs.\n";
     
     buttons += ["Leash"];    
-    buttons += ["Release"];
-    buttons += ["Follow"];            
+    buttons += ["Follow"];
+    buttons += ["Post"];
+    buttons += ["Release"];          
     list utility = [UPMENU];
     menuid = Dialog(id, text, buttons, utility, 0);
 }
@@ -152,19 +152,23 @@ default
                 
                 if(message == Leash)
                 {//reformat the "message" to the correct format to leash someone then pick who.
-                 string message = "leashto " + (string)wearer + " handle";
+                 string message = ":leashto " + (string)wearer + " handle";
                  llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
                 }
                 if(message == Follow)
                 {//reformat the "message" to the correct format to follow someone then pick who.
-                 string message = "follow " + (string)wearer + " handle";
+                 string message = ":follow " + (string)wearer + " handle";
                  llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
                 }
                 if(message == Release)
                 {//reformat the "message" to the correct format to follow someone then pick who. 
-                string message = "unleash";
+                string message = ":unleash";
                     llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
-                }               
+                }  
+                if(message == Post)
+                {
+                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, ":post", NULL_KEY);
+                }              
             }
         }
         else if (auth == DIALOG_TIMEOUT)

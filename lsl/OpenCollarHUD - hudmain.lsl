@@ -6,11 +6,13 @@ integer debugging=FALSE; // show debug messages
 list subs;//strided list in the form key,name
 string tmpname; //used temporarily to store new owner or secowner name while retrieving key
 list localcmds = ["removesub","listsubs", "reloadlist","help"];//these will be told to the listener on LOCALCMD_REQUEST, so it knows not to pass them through the remote
-
+list LISTENERS; // list of hud-channels we are listening for, for building lists
+integer LISTEN; //NG    
 string parentmenu = "Main";
 string submenu = "Subs";
 key subkey = NULL_KEY;
 string subname;
+string auth;
 
 key queueid;
 integer listenchannel = 802930;//just something i randomly chose
@@ -52,12 +54,12 @@ string listsubs = "List Subs";
 string removesub="Remove Sub";
 string reloadlist="Reload Subs";
 string scansubs="Scan Subs";
-string cmd1=""; //NG This should be blank to start with
 string ALLSUBS = "*All*";
 string currentmenu;
+string wearerName;
 key removedSub;
 key wearer;
-string wearerName;
+
 
 list menuids;//three strided list of avkey, dialogid, and menuname
 integer menustride = 3;
@@ -104,12 +106,8 @@ SendCmd(key id, string cmd, integer all)
     subname = llList2String(subs,(llListFindList(subs,[(string)id]))+1);
     if (InSim(id))
     {
-        cmd1 = cmd; //make a copy of the cmd string before it gets altered
-        cmd = (string)id + ":" + cmd; //Adding uuid and : to start of cmd string
-        llRegionSayTo(id,getPersonalChannel(id,1111), cmd); //changed from llRegonSay
-
-            llOwnerSay("Sending to "+ llKey2Name(id) +"'s collar - "+ cmd1); //make it look nice on the screen for owners, now it looks nice we can display all sent commands to all subs.
-            cmd1 ="";//Clear the cmd string ready for next time
+        llRegionSayTo(id,getPersonalChannel(id,1111), (string)wearer + cmd); //Lets send the command.
+        llOwnerSay("Sending to "+ llKey2Name(id) +"'s collar - "+ cmd); //make it look nice on the screen for owners, now it looks nice we can display all sent commands to all subs.
     }
 }
 
@@ -120,7 +118,7 @@ SendNearbyCmd(string cmd)
     for (n = 0; n < stop; n = n + 4)
     {
         key id = (key)llList2String(subs, n);
-        if(id != wearer && InSim(id)) //prevent to send commands to yourself, don't expose out-of-sim subs
+        if(id != wearer && InSim(id)) //prevent to send commands to yourself (why?), don't expose out-of-sim subs
         {
             SendCmd(id, cmd, TRUE);
         }
@@ -134,7 +132,7 @@ SendAllCmd(string cmd)
     for (n = 0; n < stop; n = n + 4)
     {
         key id = (key)llList2String(subs, n);
-        if(id != wearer) //prevent to send commands to yourself
+        if(id != wearer) //prevent to send commands to yourself, why not?
         {
             SendCmd(id, cmd, TRUE);
         }
@@ -144,7 +142,7 @@ SendAllCmd(string cmd)
 AddSub(key id, string name)
 {
     if (llListFindList(subs,[id])!=-1) return;
-    if( llStringLength(name) >= 24) name=llStringTrim(llGetSubString(name, 0, 23),STRING_TRIM);
+    if( llStringLength(name) >= 24) name=llStringTrim(llGetSubString(name, 0, 23),STRING_TRIM);//only store first 24 char$
     subs+=[id,name,"***","***"];
     llOwnerSay(name+" has been registered.");
 }
@@ -312,6 +310,15 @@ ConfirmSubRemove(key id) // Single page menu
         menuids = llListReplaceList(menuids, newstride, index, index - 1 + menustride);
     } 
 }
+//NG lets send pings here and listen for pong replys
+SendCommand(key id)
+{
+    integer channel = getPersonalChannel(id, 1111);
+    LISTENERS += [channel];
+    llRegionSayTo(id, channel, (string)wearer+ ":ping");
+    LISTEN = llListen(channel, "", NULL_KEY, "");//if we have a reply on the channel lets see what it is.
+    llSetTimerEvent(0.05);//no reply by now, lets try to the next uuid
+}
 
 default
 {
@@ -334,7 +341,6 @@ default
         if (num == COMMAND_OWNER)
         {
             //only owner may do these things
-
             if (str == "listsubs")
             {
                 //say subs
@@ -435,7 +441,7 @@ default
                     }
                     else if (message == scansubs)
                     {
-                        llSensor("",NULL_KEY,AGENT,20,PI);
+                       llSensor("",NULL_KEY,AGENT,20,PI);
                         SubMenu(id);
                     }
                     
@@ -496,29 +502,55 @@ default
             debug("dialog url:"+str);
         }
     }
+//Lets grab each persons uuid in the region and try and send a ping
     sensor(integer num)
     {
-        integer i=num;
-        while(i>0)
+        while(num > 0)
         {
-            i--;
-            key id=llDetectedKey(i);
-            llSay(getPersonalChannel(id,1111),(string)id+":ping");
+            num--;
+            key id=llDetectedKey(num);
+            SendCommand(id); // Lets just send the scanning UUID to the ping sub command.
         }
     }
+//Now we have recieved something back from a ping lets break it down and see if it's for us.
     listen(integer channel, string name, key id, string msg)
     {
-        if (llGetSubString(msg,36,40)==":pong")
-        {
+        //NG
+        integer i = llSubStringIndex(msg, ":");
+        key kTouch = (key)llGetSubString(msg, 0, i - 1);
+        msg = llGetSubString(msg, i + 1, -1);
+
+        if (llGetSubString(msg,0,6)=="pong:50") //NG strip auth level off end and check
+        {           // not very sort and clean but does the job, we are not storing the Auth level, so just for fun, more intrest when scanning collars.
+                    if (llGetSubString(msg,5,7)=="500")
+                    {
+                        auth = "Owner";
+                    }
+                    if (llGetSubString(msg,5,7)=="501")
+                    {
+                        auth = "SecOwner";
+                    }
+                    if (llGetSubString(msg,5,7)=="502")
+                    {
+                        auth = "Group";
+                    }
+                    if (llGetSubString(msg,5,7)=="503")
+                    {
+                        auth = "Wearer";
+                    }
+                    if (llGetSubString(msg,5,7)=="504")
+                    {
+                        auth = "Open Access";
+                    }
             key subId=llGetOwnerKey(id);
             string subName=llKey2Name(subId);
             if (subName=="") subName="????";
-            llOwnerSay(subName+" has been detected."); 
+            llOwnerSay(subName+" - with auth level of " + (string)auth + " has been detected."); 
             AddSub(subId,subName);
         } 
     }
     on_rez(integer param)
     {
-        if (llGetOwner()!=wearer) llResetScript();
+        if (llGetOwner()!=wearer) llResetScript();//if new owner lets reset everything
     }
 }
