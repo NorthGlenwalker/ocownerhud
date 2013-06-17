@@ -8,9 +8,9 @@ New Goals: (3.900)
 - Change llRegionSay -> llRegionSayTo - Done (NG)
 - Remove all the AutoTP code since we no longer use this option in the Hud (Why did we have an option in the hud to turn AutoTP on and off?) - Done (NG)
 - Adjusted the llOwnerSay string to be more descriptive by using Key2Name - EG when access to a sub called sub123, the main collar menu will respond - "Sending to Sub123 Resident's collar - menu" - Done (NG)
-- Added "post" command to leash menu to bring up the collar "post menu" to display items to leash the collar to - Done NG
+- Added "post" command to leash menu to bring up the collar "post menu" to display items to leash the collar to - Done (NG)
 - TP to LM no longer works as in RLV the ":" is belin used to split code. Awaiting new replacement chr$ from Joy
-- removed colon from "command send" script and added to each button cmd string to enable easy TP to LM change - Done NG
+- removed colon from "command send" script and added to each button cmd string to enable easy TP to LM change - Done (NG)
 - update cage rezzer script to use RegionSayTo - Done (NG)
 - Add leash post to cager menu
 
