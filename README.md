@@ -11,6 +11,8 @@ New Goals: (3.900)
 - Added "post" command to leash menu to bring up the collar "post menu" to display items to leash the collar to - Done NG
 - TP to LM no longer works as in RLV the ":" is belin used to split code. Awaiting new replacement chr$ from Joy
 - removed colon from "command send" script and added to each button cmd string to enable easy TP to LM change - Done NG
+- update cage rezzer script to use RegionSayTo - Done (NG)
+- Add leash post to cager menu
 
 3.800 Owners hud finished items:
 ---------------------------------
