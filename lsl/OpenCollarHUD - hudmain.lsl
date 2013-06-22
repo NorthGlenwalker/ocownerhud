@@ -5,7 +5,7 @@ integer checkdelay = 600;
 integer debugging=FALSE; // show debug messages
 list subs;//strided list in the form key,name
 string tmpname; //used temporarily to store new owner or secowner name while retrieving key
-list localcmds = ["removesub","listsubs", "reloadlist","help"];//these will be told to the listener on LOCALCMD_REQUEST, so it knows not to pass them through the remote
+list localcmds = ["removesub","listsubs", "reloadlist","help","update"];//these will be told to the listener on LOCALCMD_REQUEST, so it knows not to pass them through the remote
 list LISTENERS; // list of hud-channels we are listening for, for building lists
 integer LISTEN; //NG    
 string parentmenu = "Main";
@@ -330,7 +330,7 @@ default
         
         subs = [];
  
-        llOwnerSay("Type /7 help for a HUD Guide.");
+        llOwnerSay("Type /7 help for a HUD Guide, or /7 update for a update Guild.");
         llSleep(1.0);//giving time for others to reset before populating menu
         llMessageLinked(LINK_THIS, MENUNAME_RESPONSE, parentmenu + "|" + submenu, NULL_KEY);
     }
@@ -356,6 +356,10 @@ default
             else if (str == "help")
             {
                 llGiveInventory(id, "OpenCollar Owner HUD Guide");
+            }
+                        else if (str == "update")
+            {
+                llGiveInventory(id, "OpenCollar Owner Update Guide");
             }
         }
         else if (num == MENUNAME_REQUEST && str == parentmenu)
