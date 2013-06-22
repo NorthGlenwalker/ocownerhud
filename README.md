@@ -15,6 +15,7 @@ New Goals: (3.900)
 - Add leash post to cager menu
 - Adjusted Animation timeout from the HUD from 30 to 60 seconds - Done (NG)
 - Added update guide to the HUD to show changes - Done (NG)
+- Updated Camera script, but makes HUD and collar laggy, since not used by most people it has been removed from HUD - Done (NG)
 
 3.800 Owners hud finished items:
 ---------------------------------
