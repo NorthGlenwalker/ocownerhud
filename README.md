@@ -14,6 +14,7 @@ New Goals: (3.900)
 - update cage rezzer script to use llRegionSayTo - Done (NG)
 - Add leash post to cager menu
 - Adjusted Animation timeout from the HUD from 30 to 60 seconds - Done (NG)
+- Added update guide to the HUD to show changes - Done (NG)
 
 3.800 Owners hud finished items:
 ---------------------------------
