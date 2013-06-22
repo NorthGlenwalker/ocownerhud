@@ -45,6 +45,7 @@ string SYNCSUB = "SyncSub";
 string SYNCSELF = "SyncSelf";
 string CLEARSUB = "ClearSub";
 string CLEARSELF = "ClearSelf";
+string CAMERAMENU = "CameraMenu";
 
 key menuid;
 
@@ -73,7 +74,7 @@ key Dialog(key rcpt, string prompt, list choices, list utilitybuttons, integer p
 Menu(key id)
 {
     string text = "Pick an option.\n SyncSub - Make the sub see what you see\n SyncSelf - See what the sub is looking at.\n";
-    list buttons = [SYNCSUB, CLEARSUB, SYNCSELF, CLEARSELF];
+    list buttons = [SYNCSUB, CLEARSUB, SYNCSELF, CLEARSELF,CAMERAMENU];
     list utility = [UPMENU];
     menuid = Dialog(llGetOwner(), text, buttons, utility, 0);
 }
@@ -145,7 +146,7 @@ rotation slerp( rotation a, rotation b, float f ) {
 SyncSubCam()
 {
     //send command to sync sub's cam to dom's
-    string cmd = "camto " + str_replace((string)llGetCameraPos(), " ", "") + " " + str_replace((string)llGetCameraRot(), " ", "");
+    string cmd = "\\camto " + str_replace((string)llGetCameraPos(), " ", "") + " " + str_replace((string)llGetCameraRot(), " ", "");
     llMessageLinked(LINK_SET, SEND_CMD_NEARBY_SUBS, cmd, "");    
 }
     
@@ -209,7 +210,7 @@ default
                 else if (response == CLEARSUB)
                 {
                     //send command to sub to clear cam settings.
-                    llMessageLinked(LINK_SET, SEND_CMD_NEARBY_SUBS, "cam clear", "");
+                    llMessageLinked(LINK_SET, SEND_CMD_NEARBY_SUBS, "\\cam clear", "");
                     syncingsubs = FALSE;
                     Menu(av);                
                 }
@@ -219,19 +220,24 @@ default
                     collarchannel = -llRound(llFrand(10000000) + 1000);//replace this later with integer derived from sub's key
                     llListenRemove(collarlistener);
                     collarlistener = llListen(collarchannel, "", "", "");
-                    llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, "camdump " + (string)collarchannel + " 1", "");   
+                    llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, "\\camdump " + (string)collarchannel + " 1", "");   
                     //no menu here, since we'll be getting the pick sub menu         
                 }
                 else if (response == CLEARSELF)
                 {
                     //need to tell sub's collar to stop broadcasting
-                    llMessageLinked(LINK_SET, SEND_CMD_SUB, "camdump -1 0", currentsub);
+                    llMessageLinked(LINK_SET, SEND_CMD_SUB, "\\camdump -1 0", currentsub);
                     //and also stop ourself from listening
                     llListenRemove(collarlistener);
                     collarlistener = 0;
                     llClearCameraParams();
                     llOwnerSay("Cleared camera settings.");
                     Menu(av);                
+                }
+                else if (response == CAMERAMENU) //NG 
+                {
+                    //Lets bring up the Collar Camera menu if available
+                    llMessageLinked(LINK_SET, SEND_CMD_NEARBY_SUBS, "\\camera", ""); 
                 }
             }
         }

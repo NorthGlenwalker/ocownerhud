@@ -1,6 +1,4 @@
-Guide for the OpenCollar Owner HUD  Vers. 3.800
-
-??
+Guide for the OpenCollar Owner HUD  Vers.  Evolution 3.842 and above
 
 _______________________________________
 
@@ -12,7 +10,7 @@ ALL HUDs may be slightly hidden when attached on the bottom three attach points.
 Subs do not get added to the Owner HUD automatically.
 This means, when you become the new owner of a sub, you have to update the HUD by hitting the [Scan Subs] button in the [Subs] menu.
 *note: If a sub does not show up, you may have to be re added to the sub's collar.
-Other Subs who have their collars set to open will also get registered, so is advised to scan in a low sub area
+Other Subs who have their collars set to open will also get registered, so is advised to scan in a low sub area, this can be seen in local chat with the Auth level for each sub found.
 You can also be removed as a subs Owner by clicking [Remove Sub]
 
 Chat commands (default channel is 7):
@@ -22,13 +20,16 @@ Chat commands (default channel is 7):
 (available couple anims are: hug, kiss, hugsub, kissfoot, lickboot, jumphug... where the animations are opposite the one ones in the collar!)
 /7channel x -> changes the hud listen channel to x (where x has to be > 0 )
 
+You can also bring you any collar menu with -
+/7\\<collarmenuname> - (note the "\\" before the collar menu name) this will bring up the sub selection menu to send the command to i.e. /7\\rlv - will bring up the rlv menu of the selected collar.
+
 ======
 
 The 6 HUD Buttons: (Left to Right when at default setting)
 
 1) Leash - (chain symbol) Opens the Leash menu.
 2) Couples Animations (silhouette of a couple) Opens the couples animation menu.
-3) Cage Rezzer - (round cage) Searches for RLV enabled AV's, presents a menu, then summons a cage on the chosen AV.  The victim has the normal RLV accept/refuse type options. From the cage certain RLV functions can then be carried out.
+3) Cage Rezzer - (round cage) Searches for RLV relay enabled AV's, presents a menu, then summons a cage on the chosen AV.  The victim has the normal RLV accept/refuse type options. From the cage certain RLV functions can then be carried out.
 4) Teleport Subs - (arrow down) Opens up the Teleport sub menu.
 5) Main Menu - (square menu sheet) Opens up the HUDs main menu.
 6) Dock/Hide - (nadu girl) Docks/hides the five buttons. Pressing it again will undock/show the buttons.
@@ -48,17 +49,18 @@ The 6 HUD Buttons: (Left to Right when at default setting)
 >Subs - menu:<
 [List subs] -  dump the list of subs into chat
 [Remove Sub] - removes the sub from the HUD AND removes you as owner from the sub's collar
-[Scan Subs] - Scans for subs you are owner (or open access) of 
+[Scan Subs] - Scans for subs you are owner (or open access) of, and adds them to the HUD, it will show in chat any it finds and what access level you have of that sub.
 
 >Leash - menu<
 [Leash] - Select a single or all your controlled subs to leash
 [Release]- Select a single or all your controlled subs to unleash  / Unfollow
 [Follow] - Collar must be running ver 3.839 or above, this is a leash command with out leash partials. Enables a sub to follow you when their collar is hidden without a chain going to a bare neck.
+[Post) - brings up the "post" menu on the selected collar to enable you to leash the sub to an object.
 
 >TelePort - Menu:<
 [TP Help] - Gives you a notecard giving correct use and limitations of TelePort.
 [TP Now] - Opens a choice of locations to teleport your subs to.
-You can add up to 10 Landmarks for locations to the HUD, just drop them into the HUD's content
+You can add up to 10 Landmarks for locations to the HUD, just drop them into the HUD's content *total length of LM names must be less then 512 characters*
 
 To be able to use the HUD's TP features you have to ensure two things:
 1) RLV is turned on at the subs collar 

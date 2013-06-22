@@ -135,7 +135,7 @@ default
                 
                 list menuparams = llParseString2List(str, ["|"], []);
                 id = (key)llList2String(menuparams, 0);
-                string message = ":" + llList2String(menuparams, 1);//NG to add ":"
+                string message = "\\" + llList2String(menuparams, 1); // NG changed ":" to "\\"
                 integer page = (integer)llList2String(menuparams, 2);
                 
                 if(message == UPMENU)

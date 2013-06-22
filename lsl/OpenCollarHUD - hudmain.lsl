@@ -315,7 +315,7 @@ SendCommand(key id)
 {
     integer channel = getPersonalChannel(id, 1111);
     LISTENERS += [channel];
-    llRegionSayTo(id, channel, (string)wearer+ ":ping");
+    llRegionSayTo(id, channel, (string)wearer+ "\\ping"); // NG changed ":" to "\\"
     LISTEN = llListen(channel, "", NULL_KEY, "");//if we have a reply on the channel lets see what it is.
     llSetTimerEvent(0.05);//no reply by now, lets try to the next uuid
 }
@@ -516,12 +516,11 @@ default
     listen(integer channel, string name, key id, string msg)
     {
         //NG
-        integer i = llSubStringIndex(msg, ":");
+        integer i = llSubStringIndex(msg, "\\"); // NG changed ":" to "\\"
         key kTouch = (key)llGetSubString(msg, 0, i - 1);
         msg = llGetSubString(msg, i + 1, -1);
-
-        if (llGetSubString(msg,0,6)=="pong:50") //NG strip auth level off end and check
-        {           // not very sort and clean but does the job, we are not storing the Auth level, so just for fun, more intrest when scanning collars.
+        if (llGetSubString(msg,0,6)=="pong\\50") //NG strip auth level off end and check
+        {           // not very short and clean but does the job, we are not storing the Auth level, so just for fun, more intrest when scanning collars.
                     if (llGetSubString(msg,5,7)=="500")
                     {
                         auth = "Owner";
@@ -532,7 +531,7 @@ default
                     }
                     if (llGetSubString(msg,5,7)=="502")
                     {
-                        auth = "Group";
+                        auth = "Open Access";
                     }
                     if (llGetSubString(msg,5,7)=="503")
                     {
@@ -540,7 +539,7 @@ default
                     }
                     if (llGetSubString(msg,5,7)=="504")
                     {
-                        auth = "Open Access";
+                        auth = "Group";
                     }
             key subId=llGetOwnerKey(id);
             string subName=llKey2Name(subId);

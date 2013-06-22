@@ -83,17 +83,6 @@ Notify(key keyID, string szMsg, integer nAlsoNotifyWearer)
     }
 }
 
-NewURL()
-{
-    llMessageLinked(LINK_SET, SEND_CMD_NEARBY_SUBS, "remotemenu:off", "");//makesure the local ones clear it.
-    if(llGetFreeURLs() == 0)
-    {
-        return;
-    }
-    g_kNewUrlRequest = llRequestURL();
-}
-
-
 list CharacterCountCheck(list in, key ID)
     // checks if any of the times is over 24 characters and removes them if needed
 {
@@ -306,63 +295,12 @@ default
     state_entry()
     {
         g_keyWearer=llGetOwner();
-        NewURL();
     }
 
     on_rez(integer param)
     {
         llResetScript();
     }
-
-    changed(integer c)
-    {
-        if (c & (CHANGED_REGION | CHANGED_REGION_START | CHANGED_TELEPORT) )
-        {
-            NewURL();
-        }
-    }
-
-    http_request(key kID, string sMethod, string sBody)
-    {debug("httprequest");
-            if ((sMethod == URL_REQUEST_GRANTED) && (kID == g_kNewUrlRequest) )
-            {
-                g_sCurrentUrl = sBody;
-                g_kNewUrlRequest = NULL_KEY;
-                llMessageLinked(LINK_SET, DIALOG_URL, sBody, "");
-            }
-            else if ((sMethod == URL_REQUEST_DENIED) && (kID == g_kNewUrlRequest))
-            {
-                g_kNewUrlRequest = NULL_KEY;
-            }
-            else if (g_sCurrentUrl == "")
-            {
-                llHTTPResponse(kID,403,"Forbidden");
-            }
-            else if (sMethod == "POST")
-            {//give a dialog with the options on the button labels
-                //str will be pipe-delimited list with rcpt|prompt|page|backtick-delimited-list-buttons|backtick-delimited-utility-buttons
-                debug(sBody);
-                list params = llParseStringKeepNulls(sBody, ["|"], []);
-                key rcpt = (key)llList2String(params, 0);
-                if (rcpt == "")
-                {
-                    rcpt = g_keyWearer;
-                }
-                string prompt = llList2String(params, 1);
-                integer page = (integer)llList2String(params, 2);
-                list lbuttons = CharacterCountCheck(llParseStringKeepNulls(llList2String(params, 3), ["`"], []), rcpt);
-                list ubuttons = llParseStringKeepNulls(llList2String(params, 4), ["`"], []);
-                key menuid = llList2Key(params, 5);
-                string sub = llGetHTTPHeader(kID, "x-secondlife-owner-key");
-                g_lRemoteMenus += [menuid, sub];
-                debug(llList2CSV(g_lRemoteMenus));
-                //first clean out any strides already in place for that user.  prevents having lots of listens open if someone uses the menu several times while sat
-                ClearUser(rcpt);
-                //now give the dialog and save the new stride
-                Dialog(rcpt, prompt, lbuttons, ubuttons, page, menuid);
-                llHTTPResponse(kID,202,"");//say we got it to the collar and prevet 502 error
-            }
-        }
 
     link_message(integer sender, integer num, string str, key id)
     {

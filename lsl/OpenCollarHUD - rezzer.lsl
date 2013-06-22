@@ -226,15 +226,16 @@ default
             found = found + [llDetectedName(i)]; // add name to list 'found'
             message += llDetectedName(i)+"\n";
             relaylisten = llListen(relaychannel,"",NULL_KEY,"");
-            llSay(relaychannel,"locator,"+(string)llDetectedKey(i)+",!version");//query for a RLVRS
+            llRegionSayTo((string)llDetectedKey(i),relaychannel,"locator,"+(string)llDetectedKey(i)+",!version");//query for a RLVRS...NG changed to RegionSayTo
+llOwnerSay((string)relaychannel + "locator," + (string)llDetectedKey(i) + ",!version");//NG debug
         }
-        llSetTimerEvent(5.0);
+        llSetTimerEvent(1.0);
         
     }
 
     no_sensor()
     {
-        llOwnerSay("No avis within range at this time. Try again in a bit.");
+        llOwnerSay("No avis within range at this time. Check the sub has RLV relay installed and it is turned on.");
         llResetScript();
     }
 
@@ -245,7 +246,7 @@ default
         llListenControl(relaylisten,FALSE);
         if(victims == []) // we heared no message from a RLVrelay
         {
-            llOwnerSay("No Avatars with RLV in range at this time. Try again in a bit.");
+            llOwnerSay("No Avatars with RLV in range at this time. Check the sub has RLV relay installed and it is turned on.");
             llResetScript();
         }
         else

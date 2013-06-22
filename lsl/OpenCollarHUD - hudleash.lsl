@@ -152,22 +152,22 @@ default
                 
                 if(message == Leash)
                 {//reformat the "message" to the correct format to leash someone then pick who.
-                 string message = ":leashto " + (string)wearer + " handle";
+                 string message = "\\leashto " + (string)wearer + " handle"; // NG changed ":" to "\\"
                  llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
                 }
                 if(message == Follow)
                 {//reformat the "message" to the correct format to follow someone then pick who.
-                 string message = ":follow " + (string)wearer + " handle";
+                 string message = "\\follow " + (string)wearer + " handle"; // NG changed ":" to "\\"
                  llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
                 }
                 if(message == Release)
                 {//reformat the "message" to the correct format to follow someone then pick who. 
-                string message = ":unleash";
+                string message = "\\unleash"; // NG changed ":" to "\\"
                     llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
                 }  
                 if(message == Post)
                 {
-                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, ":post", NULL_KEY);
+                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "\\post", NULL_KEY); // NG changed ":" to "\\"
                 }              
             }
         }

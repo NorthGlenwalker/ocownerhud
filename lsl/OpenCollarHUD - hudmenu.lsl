@@ -202,11 +202,11 @@ default
             }
             else if (str == "CollarMenu")
             {
-                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, ":menu", NULL_KEY);
+                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "\\menu", NULL_KEY);
             }
             else if (str == "UnDressMenu")
             {
-                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, ":undress", NULL_KEY);
+                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "\\undress", NULL_KEY);
             }
         }
         else if (num == COMMAND_OWNER)

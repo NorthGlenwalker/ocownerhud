@@ -56,7 +56,7 @@ debug(string str)
 
 string TPCmd(vector abspos)
 {
-    return "tpto:" + (string)abspos.x + "/" + (string)abspos.y + "/" + (string)abspos.z + "=force";
+    return "\\tpto:" + (string)abspos.x + "/" + (string)abspos.y + "/" + (string)abspos.z + "=force";
 }
 
 key ShortKey()
