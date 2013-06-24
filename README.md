@@ -16,6 +16,9 @@ New Goals: (3.900)
 - Adjusted Animation timeout from the HUD from 30 to 60 seconds - Done (NG)
 - Added update guide to the HUD to show changes - Done (NG)
 - Updated Camera script, but makes HUD and collar laggy, since not used by most people it has been removed from HUD - Done (NG)
+- Changed Sensor scan to Region wide was set at 20M, and old system limited to 96M maximum - Done (NG)
+- Added OwnerSay when trying to send a command to a collar not on the Sim - Done (NG)
+- Added OwnweSay when scanning for subs and none found
 
 3.800 Owners hud finished items:
 ---------------------------------
