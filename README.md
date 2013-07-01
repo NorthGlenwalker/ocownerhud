@@ -1,7 +1,7 @@
 Let's work on the Owner Hud!
 ===========================
 
-New Goals: (3.900)
+New Goals: Evolution (>3.841)
 
 - New collar link direct to RLV main menu - Update linking into Un/Dress menu instead, Hud section written in - Done (NG)
 - Requested hook into Un/Dress Menu from Joy, along with change the main menu hook from "menuto" to "menu", this change will make the Owner hud incompatible with <3.840 collars (Joy has removed the old "menuto" code section as bad coding and rewritten) whole new "auth" system writen into collar, hud changed to reflect this. - Done (NG)
