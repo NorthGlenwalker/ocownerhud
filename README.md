@@ -17,9 +17,11 @@ New Goals: Evolution (>3.841)
 - Added update guide to the HUD to show changes - Done (NG)
 - Updated Camera script, but makes HUD and collar laggy, since not used by most people it has been removed from HUD - Done (NG)
 - Changed Sensor scan to Region wide was set at 20M, and old system limited to 96M maximum - Done (NG)
-- Added OwnerSay when trying to send a command to a collar not on the Sim - 
-- Added OwnerSay when scanning for subs and none found - Done (NG)
-- Added ForceSit and ForceStand to leash menu, seamed a good place for them - Done NG
+- Added OwnerSay when trying to send a command to a collar not on the Sim - Done (NG)
+- Added ForceSit and ForceStand to leash menu, seamed a good place for them - Done (NG)
+- Added bound and unbound to leash menu as attach/detach standard #RLV folder called bound
+- Added OwnerMenu to enable 11 non standard commands to be added by the user, and help guild
+- Added chat command /7reset to clear the settings in the hud
 
 3.800 Owners hud finished items:
 ---------------------------------
