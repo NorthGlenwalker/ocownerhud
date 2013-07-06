@@ -28,11 +28,17 @@ integer LOCALCMD_RESPONSE = -2001;
 string UPMENU = "^";
 string MORE = ">";
 string parentmenu = "Main";
-string submenu = "LeashMenu";
+string submenu = "LeashMenu"; //This Menu's name
+//now a list of buttons
 string Leash = "Leash";
 string Follow = "Follow";
 string Release = "Release";
 string Post = "Post";
+string ForceSit = "ForceSit";
+string Stand = "Stand";
+string Bound = "Bound";
+string Unbound = "Unbound";
+
 string currentmenu;
 string subName;
 
@@ -75,11 +81,23 @@ Dialogleash(key id)
     text += "[Follow] Force a/all sub(s) to follow you without leash.\n";
     text += "[Post] Brings up the collar 'post' menu, so you may leash your sub to an item, like a leash post.\n";
     text += "[Release] UnLeash a/all subs.\n";
+    text += "**NOTE** It is not recomended to leash a sub further then 20M away, but will work to a maximum of 60M in some cases.\n";
+    text += "[ForceSit] Opens the ForceSit Collar Menu.\n";
+    text += "[Stand] Forces the Subbie to Stand.\n";
+    text += "[Bound] Attached the Bound folder in #RLV.\n";
+    text += "[UnBound] Detaches the Bound folder in #RLV.\n";
     
     buttons += ["Leash"];    
     buttons += ["Follow"];
     buttons += ["Post"];
-    buttons += ["Release"];          
+    buttons += [" "];
+    buttons += ["Release"];
+    buttons += [" "];
+    buttons += ["ForceSit"];
+    buttons += ["Stand"];
+    buttons += [" "];
+    buttons += ["Bound"];
+    buttons += ["Unbound"];
     list utility = [UPMENU];
     menuid = Dialog(id, text, buttons, utility, 0);
 }
@@ -136,7 +154,7 @@ default
             {
                 Dialogleash(id);
             }    
-        else if (auth == DIALOG_RESPONSE)
+        else if (auth == DIALOG_RESPONSE)  // NG changed ":" to "\\"
         {
             if (id == menuid)
             {
@@ -148,27 +166,42 @@ default
                 if(message == UPMENU)
                 {//lets go up a menu
                     llMessageLinked(LINK_SET, SUBMENU, parentmenu, id);
-                }
-                
+                }            
                 if(message == Leash)
                 {//reformat the "message" to the correct format to leash someone then pick who.
-                 string message = "\\leashto " + (string)wearer + " handle"; // NG changed ":" to "\\"
-                 llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
+                    string message = "\\leashto " + (string)wearer + " handle";
+                    llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
                 }
                 if(message == Follow)
                 {//reformat the "message" to the correct format to follow someone then pick who.
-                 string message = "\\follow " + (string)wearer + " handle"; // NG changed ":" to "\\"
-                 llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
+                    string message = "\\follow " + (string)wearer + " handle";
+                    llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
                 }
                 if(message == Release)
-                {//reformat the "message" to the correct format to follow someone then pick who. 
-                string message = "\\unleash"; // NG changed ":" to "\\"
+                {//reformat the "message" to the correct format to unleash someone then pick who. 
+                    string message = "\\unleash";
                     llMessageLinked(LINK_SET, SEND_CMD_PICK_SUB, llToLower(message), id);
                 }  
                 if(message == Post)
+                {//brings up the Collar Post menu
+                    llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "\\post", NULL_KEY);
+                }
+                if(message == ForceSit)
+                { //brings up the Collar SitNow menu
+                    llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "\\sitnow", NULL_KEY);
+                }       
+                if(message == Stand)
+                { //forces the Collar wearer to stand
+                    llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "\\standnow", NULL_KEY);
+                }  
+                if(message == Bound)
+                {//attach a #RLV folder called bound
+                    llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "\\+bound", NULL_KEY);// an idea from pandora15 - single button to attach an RLV folder containing items to bind/gag/pose/restrict at once
+                } 
+                if(message == Unbound)
                 {
-                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "\\post", NULL_KEY); // NG changed ":" to "\\"
-                }              
+                    llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "\\-bound", NULL_KEY);// OK lets detach the folder now
+                } 
             }
         }
         else if (auth == DIALOG_TIMEOUT)
@@ -177,12 +210,18 @@ default
             {
                 list menuparams = llParseString2List(str, ["|"], []);
                 id = (key)llList2String(menuparams, 0);
-                llInstantMessage(id,"Menu timed out!");
+                llOwnerSay("Leash Menu timed out!");
                 menuid = NULL_KEY;
             }
         }
     }
-    
+    changed(integer change)
+    {
+        if (change & CHANGED_OWNER)
+        {
+            llResetScript();
+        }
+    }
     on_rez(integer param)
     {     //should reset on rez to make sure the parent menu gets populated with our button
         llResetScript();

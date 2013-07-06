@@ -2,7 +2,7 @@
 // coupleanim1
 // string parentmenu = "Animations";
 string parentmenu = "Main"; // changed for Owner HUD
-string submenu = "Couples";
+string submenu = "Couples"; // This menu's name
 string UPMENU = "^";
 string MORE = ">";
 integer listener;
@@ -583,7 +583,7 @@ state ready
             integer menuindex = llListFindList(menuids, [id]);
             if (menuindex != -1)
             {
-                llInstantMessage(llGetOwner(), "Menu timed out!");
+                llOwnerSay("Couple Menu timed out!");
             }
         }
     }

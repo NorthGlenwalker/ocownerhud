@@ -701,7 +701,7 @@ default
         {
             if(id == menuid)
             {
-                llInstantMessage(llGetOwner(),"Menu timed out!");                
+                llOwnerSay("Options Menu timed out!");                
             }
         }
         
@@ -723,5 +723,12 @@ default
     timer()
     {
         //
+    }
+    changed(integer change)
+    {
+        if (change & CHANGED_OWNER)
+        {
+            llResetScript();
+        }
     }
 }

@@ -1,4 +1,4 @@
-Because of SL limitations you have to be within the same region to control a collar wearer.
+Because of SL limitations you have to be within the same Sim to control a collar wearer.
 
 To send someone to a different Sim, you need to have a landmark in your Owners hud first.
 You can then force them to that location BEFORE you Teleport yourself.

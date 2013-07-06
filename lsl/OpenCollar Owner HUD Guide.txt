@@ -1,4 +1,4 @@
-Guide for the OpenCollar Owner HUD  Vers.  Evolution 3.842 and above
+Guide for the OpenCollar Owner HUD  Vers.  Evolution 3.8415 and above
 
 _______________________________________
 
@@ -19,6 +19,7 @@ Chat commands (default channel is 7):
 /7hug name -> will ask name to accept a hug 
 (available couple anims are: hug, kiss, hugsub, kissfoot, lickboot, jumphug... where the animations are opposite the one ones in the collar!)
 /7channel x -> changes the hud listen channel to x (where x has to be > 0 )
+/7reset -> Does a hud reset and clears the subs list.
 
 You can also bring you any collar menu with -
 /7\\<collarmenuname> - (note the "\\" before the collar menu name) this will bring up the sub selection menu to send the command to i.e. /7\\rlv - will bring up the rlv menu of the selected collar.
@@ -40,22 +41,30 @@ The 6 HUD Buttons: (Left to Right when at default setting)
 
 [CollarMenu] - Allows you to select from any registered collar menu's from your subs around.
 [Couples] - Opens the couple animation menu to choose an animation.
+[CuffMenu] - Currently a place holder waiting for code
 [LeashMenu] - Opens the Leash/Unleash menu
-[Spy] - Opens the spy menu to set spy settings.
-[Subs] - Gives you a menu with a list of your subs and a button to dump the list into chat.
-[TelePort] - Opens the Upper TP menu. 
 [Options] - Opens the HUD style/position/order options.
+[OwnerMenu] - This is a menu for owners to add their own commonly used collar commands
+[Spy] - Opens the spy menu to set spy settings.
+[Subs] - Gives you a menu where you add (scan), list your subs and a button to remove a sub from hud and collar..
+[TelePort] - Opens the Upper TP menu. 
+[UnDressMenu] - Opens the RLV / Un/Dress menu of a collar
+
 
 >Subs - menu:<
 [List subs] -  dump the list of subs into chat
 [Remove Sub] - removes the sub from the HUD AND removes you as owner from the sub's collar
 [Scan Subs] - Scans for subs you are owner (or open access) of, and adds them to the HUD, it will show in chat any it finds and what access level you have of that sub.
 
->Leash - menu<
+>LeashMenu - menu<
 [Leash] - Select a single or all your controlled subs to leash
+[Follow] - This is a leash command with out leash partials. Enables a sub to follow you when their collar is hidden without a chain going to a bare neck.
+[Post) - Brings up the "post" menu on the selected collar to enable you to leash the sub to an object.
+[spacer]
 [Release]- Select a single or all your controlled subs to unleash  / Unfollow
-[Follow] - Collar must be running ver 3.839 or above, this is a leash command with out leash partials. Enables a sub to follow you when their collar is hidden without a chain going to a bare neck.
-[Post) - brings up the "post" menu on the selected collar to enable you to leash the sub to an object.
+[spacer]
+[Bound] - a single button to attach the standard #RLV/bound folder (to contain everything to lock and bind your victim)
+[Unbound] - detach everything in the #RLV/bound folder
 
 >TelePort - Menu:<
 [TP Help] - Gives you a notecard giving correct use and limitations of TelePort.
@@ -66,6 +75,10 @@ To be able to use the HUD's TP features you have to ensure two things:
 1) RLV is turned on at the subs collar 
 2) You have to be within the same region as the sub you wish to control.
 
+>OwnersMenu Menu<
+To get a notecard on how to set this up type /7owner
+This is YOUR menu to set up if you wish with up to 11 commands
+
 >Options - Menu:<
 [Horizontal] - Aligns the buttons in a horizontal layout.
 [Vertical] - Aligns the buttons in a Vertical layout. It will position the buttons in a horizontal plane when attached to the "top" or "bottom" HUD attach point automatically.
@@ -75,7 +88,7 @@ To be able to use the HUD's TP features you have to ensure two things:
 
 -=-=-=-=-
  
-*** Please be aware that for the submissive,RLV, the Restrained Life (Love) Viewer, will make  restraints un-detachable and other restrictive Measures can be enforced. These are measures that can test your relationship between an Owner and a submissive.
+*** Please be aware that for the submissive,RLV, the Restrained Life (Love) Viewer, will make restraints un-detachable and other restrictive Measures can be enforced. These are measures that can test your relationship between an Owner and a submissive.
 
 Please remember that using RLV is something that You will need to have an open communication with your submissive about due to the amount of power exchanged between you and your submissive.  Is not to be be taken lightly as some are not comfortable with it and will need to grow into wanting to use RLV to enhance their Second life.  
 

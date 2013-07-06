@@ -154,12 +154,18 @@ default
             {
                 list menuparams = llParseString2List(str, ["|"], []);
                 id = (key)llList2String(menuparams, 0);
-                llInstantMessage(id,"Menu timed out!");
+                llOwnerSay("Spy Menu timed out!");
                 menuid = NULL_KEY;
             }
         }
     }
-    
+    changed(integer change)
+    {
+        if (change & CHANGED_OWNER)
+        {
+            llResetScript();
+        }
+    } 
     on_rez(integer param)
     {     //should reset on rez to make sure the parent menu gets populated with our button
         llResetScript();

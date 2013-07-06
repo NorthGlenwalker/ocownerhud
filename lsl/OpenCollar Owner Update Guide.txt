@@ -7,12 +7,16 @@ New changes since 3.800
 -    Remove all the AutoTP code since we no longer use this option in the Hud (Why did we have an option in the HUD to turn AutoTP on and off?)
 -    Adjusted the llOwnerSay string to be more descriptive by using Key2Name - EG when access to a sub called sub123, the main collar menu will respond - "Sending to Sub123 Resident's collar - menu" 
 -    Added "post" command to leash menu to bring up the collar "post menu" to display items to leash the collar to
--    ":" separator has been replaced with "\" so RLV commands from the HUD or cuffs are not chopped up before being actioned
+-    ":" separator has been replaced with "\\" so RLV commands from the HUD or cuffs are not chopped up before being actioned
 -    removed colon from "command send" script and added to each button cmd string to enable easy TP to LM change in RLV accessed code
 -    update cage rezzer script to use llRegionSayTo- now responds in under 1/2 second
 -    Add leash post to cager menu
 -    Adjusted Animation timeout from the HUD from 30 to 60 seconds
 -    When you scan for subs now, the HUD will respond with all subs found in under 1 second, even in busy sims. Now displays the access level of that subs collar when found.
+-    Changed Sensor scan to Sim wide was set at 20M, and old system limited to 96M maximum and 15 closest Avatars on Sim.
+-    Added local chat when trying to send a command to a collar not on the Sim
+-    Added OwnerMenu to enable a further 11 custom commands to be added.
+-    Added Bound /UnBound to leash menu as attach/detach standard #RLV bound folder
 
 
 New changes since 3.703

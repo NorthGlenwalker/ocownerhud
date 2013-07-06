@@ -1,6 +1,6 @@
 //listener
 list localcmds = ["channel"];//commands that get passed to COMMAND_OWNER.  All others get passed through
-integer listenchannel = 7;
+integer listenchannel = 7; //our default listen channel
 
 integer listener;
 
@@ -53,11 +53,11 @@ default
         string cmd = llList2String(llParseString2List(message, [" "], []), 0);
         if (~llListFindList(localcmds, [cmd]))
         {
-            llMessageLinked(LINK_SET, COMMAND_OWNER, message, id);
+            llMessageLinked(LINK_SET, COMMAND_OWNER, message, id); //If the message for us
         }
         else
         {
-            llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, message, id);
+            llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, message, id); //else we will pick a sub to send it to
         }
     }
     

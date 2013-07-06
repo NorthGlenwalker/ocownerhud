@@ -1,4 +1,4 @@
-//OpenCollarHUD - hudmenu 3.380
+//OpenCollarHUD - hudmenu 3.8415 Evolution
 //on start, send request for submenu names
 //on getting submenu name, add to list if not already present
 //on menu request, give dialog, with alphabetized list of submenus
@@ -81,7 +81,7 @@ Menu(string name, key id)
 
 debug(string str)
 {
-    //
+    // mm not much here
 }
 
 default
@@ -102,9 +102,10 @@ default
                 llMessageLinked(LINK_THIS, MENUNAME_RESPONSE, name + "|" + UPMENU, NULL_KEY);
             }
         }
-        //add "CollarMenu" and RLVMenu buttons to main menu
+        //add "CollarMenu","CuffMenu" and RLVMenu buttons to main menu
         llMessageLinked(LINK_THIS, MENUNAME_RESPONSE, "Main|CollarMenu", NULL_KEY);
         llMessageLinked(LINK_THIS, MENUNAME_RESPONSE, "Main|UnDressMenu", NULL_KEY);
+//        llMessageLinked(LINK_THIS, MENUNAME_RESPONSE, "Main|CuffMenu", NULL_KEY); //placeholder for now
     }
 
     touch_start(integer num)
@@ -118,10 +119,9 @@ default
         }
 
         if (id == wearer)
-        {   // Since the hud needs a version number in the description for the auto-updater...
-            // I made the root prim the "menu" prim, and the button action default to "menu."
+        {   // I made the root prim the "menu" prim, and the button action default to "menu."
             string button = (string)llGetObjectDetails(llGetLinkKey(llDetectedLinkNumber(0)),[OBJECT_DESC]);
-
+//ok if a button is pushed, which menu do we bring up!
             if (button == "TPSubs")
             {
                 llMessageLinked(LINK_SET, COMMAND_OWNER,"TPMenus", id);
@@ -200,6 +200,7 @@ default
             {
                 Menu(str, id);
             }
+//            lets bring up the special collar menu's
             else if (str == "CollarMenu")
             {
                 llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "\\menu", NULL_KEY);
@@ -207,6 +208,10 @@ default
             else if (str == "UnDressMenu")
             {
                 llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "\\undress", NULL_KEY);
+            }
+            else if (str == "CuffMenu") //place holder for now
+            {
+                llMessageLinked(LINK_THIS, SEND_CMD_PICK_SUB, "\\cuff", NULL_KEY);
             }
         }
         else if (num == COMMAND_OWNER)
@@ -243,7 +248,7 @@ default
         {
             if(id == menuid)
             {
-                llInstantMessage(llGetOwner(),"Menu timed out!");
+                llOwnerSay("Main Menu timed out!");
             }
         }
 

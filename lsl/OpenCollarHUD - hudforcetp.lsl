@@ -1,9 +1,9 @@
 //on touch, give menu of LMs
 //on hearing number, request LM data
 //on getting LM data, give TP command
-//Currently only works within Region (NG)
+//Currently only works if you and the Sub are in the same Region (NG)
 string parentmenu = "Main";
-string submenu = "TelePort";
+string submenu = "TelePort"; //our menu name
 list localcmds = ["autotp"];
 key dataid;
 string currentmenu;
@@ -56,7 +56,7 @@ debug(string str)
 
 string TPCmd(vector abspos)
 {
-    return "\\tpto:" + (string)abspos.x + "/" + (string)abspos.y + "/" + (string)abspos.z + "=force";
+    return "\\tpto:" + (string)abspos.x + "/" + (string)abspos.y + "/" + (string)abspos.z + "=force"; //now uses \\ for Evolution collars
 }
 
 key ShortKey()
@@ -157,8 +157,8 @@ MainMenu(key id)
     currentmenu = "main";
     
     text += "Choose an option.\n";
-    buttons += ["TP Now"];
-    buttons += ["TP Help"];
+    buttons += ["TP Now"]; //go to TP menu
+    buttons += ["TP Help"]; //give the help notecard
     utility = [UPMENU];   
 
     key menuid = Dialog(id, text, buttons, utility, page);
@@ -303,7 +303,7 @@ default
             // if it's greater than 0, we know it's for us (this script)
             if (menuindex != -1)
             {
-                llInstantMessage(llGetOwner(),"Menu timed out!");
+                llOwnerSay("TP Menu timed out!");
             }
         }
     }

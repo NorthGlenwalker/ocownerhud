@@ -114,7 +114,7 @@ Choose_Cage(key id)
             buttons += llGetInventoryName(INVENTORY_OBJECT,i);
         }
     }
-    prompt += "Choose one of these cages to rez.";
+    prompt = "Choose one of these cages to rez."; // removed + after prompt
     llSetTimerEvent(timeout);
     menuid = Dialog(id, prompt, buttons, utility, 0);
 }
@@ -227,15 +227,12 @@ default
             message += llDetectedName(i)+"\n";
             relaylisten = llListen(relaychannel,"",NULL_KEY,"");
             llRegionSayTo((string)llDetectedKey(i),relaychannel,"locator,"+(string)llDetectedKey(i)+",!version");//query for a RLVRS...NG changed to RegionSayTo
-llOwnerSay((string)relaychannel + "locator," + (string)llDetectedKey(i) + ",!version");//NG debug
         }
         llSetTimerEvent(1.0);
-        
     }
-
     no_sensor()
     {
-        llOwnerSay("No avis within range at this time. Check the sub has RLV relay installed and it is turned on.");
+        llOwnerSay("No avis within range at this time. You need to be within 20M");
         llResetScript();
     }
 
@@ -246,13 +243,14 @@ llOwnerSay((string)relaychannel + "locator," + (string)llDetectedKey(i) + ",!ver
         llListenControl(relaylisten,FALSE);
         if(victims == []) // we heared no message from a RLVrelay
         {
-            llOwnerSay("No Avatars with RLV in range at this time. Check the sub has RLV relay installed and it is turned on.");
+            llOwnerSay("No RLV relays found. Check the sub has RLV relay installed it is turned on, and set to auto.");
             llResetScript();
         }
         else
         {
             msg = "";
-            msg =  "Found "+(string)llGetListLength(found)+ " Avatars in Range\n" + (string)(llGetListLength(victims)/2)+ " of these use RLV.\n";
+//            msg =  "Found "+(string)llGetListLength(found)+ " Avatars in Range\n" + (string)(llGetListLength(victims)/2)+ " of these use RLV.";
+            llOwnerSay ("Found "+(string)llGetListLength(found)+ " Avatars in Range. " + (string)(llGetListLength(victims)/2)+ " of these use RLV.");//NG lets say what we have found
             found = [];
             for(i = 0; i< llGetListLength(victims); i = i+2)
             {
@@ -321,7 +319,7 @@ state launch
         {
             if(id == menuid)
             {
-                llOwnerSay("Menu timed out!");
+                llOwnerSay("Cager Menu timed out!");
             }
         }
     }

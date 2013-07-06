@@ -1,4 +1,4 @@
-﻿//an adaptation of Schmobag Hogfather's SchmoDialog script
+//an adaptation of Schmobag Hogfather's SchmoDialog script
 
 key g_kNewUrlRequest;
 key g_kBroadcastRequest;
