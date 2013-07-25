@@ -1,7 +1,7 @@
 Let's work on the Owner Hud!
 ===========================
 
-New Goals: Evolution (>3.841)
+New Goals: Evolution (Evol39)
 
 - New collar link direct to RLV main menu - Update linking into Un/Dress menu instead, Hud section written in - Done (NG)
 - Requested hook into Un/Dress Menu from Joy, along with change the main menu hook from "menuto" to "menu", this change will make the Owner hud incompatible with <3.840 collars (Joy has removed the old "menuto" code section as bad coding and rewritten) whole new "auth" system writen into collar, hud changed to reflect this. - Done (NG)
@@ -19,9 +19,10 @@ New Goals: Evolution (>3.841)
 - Changed Sensor scan to Region wide was set at 20M, and old system limited to 96M maximum - Done (NG)
 - Added OwnerSay when trying to send a command to a collar not on the Sim - Done (NG)
 - Added ForceSit and ForceStand to leash menu, seamed a good place for them - Done (NG)
-- Added bound and unbound to leash menu as attach/detach standard #RLV folder called bound
-- Added OwnerMenu to enable 11 non standard commands to be added by the user, and help guild
-- Added chat command /7reset to clear the settings in the hud
+- Added bound and unbound to leash menu as attach/detach standard #RLV folder called bound - Done (NG)
+- Added OwnerMenu to enable 11 non standard commands to be added by the user, and help guild - Done (NG)
+- Added chat command /7reset to clear the settings in the hud - Done (NG)
+- Added Subs notecard to load sub name and key into hud from the Subs menu - Done (NG)
 
 3.800 Owners hud finished items:
 ---------------------------------
