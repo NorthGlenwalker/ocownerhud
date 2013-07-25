@@ -14,6 +14,10 @@ key subkey = NULL_KEY;  //clear the sub uuid
 string subname; //what is the name of the sub
 string auth; //what auth level we are against each collar
 list AGENTS; //list of AV's to ping
+//Notecard reading bits
+string configurationNotecardName = "Subs";//Notecard to contain subs names
+key notecardQueryId;
+integer line;
 
 key queueid;
 integer listenchannel = 802930;//just something i randomly chose
@@ -51,6 +55,7 @@ string listsubs = "List Subs";
 string removesub="Remove Sub";
 string reloadlist="Reload Subs";
 string scansubs="Scan Subs";
+string loadnotecard = "Load Subs";
 string ALLSUBS = "*All*";
 string currentmenu;
 string wearerName;
@@ -197,7 +202,7 @@ SubMenu(key id) // Single page menu
 
     list buttons;
     //add sub
-    buttons += [listsubs,removesub,scansubs];
+    buttons += [listsubs,removesub,scansubs,loadnotecard];
     //parent menu
     list utility = [UPMENU];
     
@@ -318,7 +323,46 @@ SendCommand(key id)
     LISTENERS += [channel];
     llRegionSayTo(id, channel, (string)wearer+ "\\ping"); // (NG) changed ":" to "\\" for 3.8415 collar
     LISTEN = llListen(channel, "", NULL_KEY, "");// if we have a reply on the channel lets see what it is.
-    llSetTimerEvent(0.1);// no reply by now, lets try to the next uuid
+    llSetTimerEvent(0.2);// no reply by now, lets kick off the timer
+}
+processConfiguration(string data)
+{
+//  if we are at the end of the file
+    if(data == EOF)
+    {
+    //  notify the owner
+        llOwnerSay("We are done reading the Sub Notecard");
+        return;
+    }
+    if(data != "")//  if we are not working with a blank line
+    {
+        if(llSubStringIndex(data, "#") != 0)//  if the line does not begin with a comment
+        {
+            integer i = llSubStringIndex(data, "=");//  find first equal sign
+            if(i != -1)//  if line contains equal sign
+            {
+                string name = llGetSubString(data, 0, i - 1);//  get name of name/value pair
+                string value = llGetSubString(data, i + 1, -1);//  get value of name/value pair
+                list temp = llParseString2List(name, [" "], []);
+                name = llDumpList2String(temp, " ");//  trim name
+                name = llToLower(name);//  make name lowercase (case insensitive)
+                temp = llParseString2List(value, [" "], []);
+                value = llDumpList2String(temp, " ");//  trim value
+                if(name == "subname")//  subname
+                    subname = value;
+                else if(name == "subid")//  subid
+                    subkey = value;
+                else//  unknown name
+                    llOwnerSay("Unknown configuration value: " + name + " on line " + (string)line);
+            }
+            else//  line does not contain equal sign
+            {
+                llOwnerSay("Configuration could not be read on line " + (string)line);
+            }
+        }
+    }
+    AddSub(subkey,subname);
+    notecardQueryId = llGetNotecardLine(configurationNotecardName, ++line);//  read the next line
 }
 
 default
@@ -448,16 +492,30 @@ default
                     {
                         RemoveSubMenu(id,page);
                     }
+                    else if (message == loadnotecard)  // Ok lets load the subs from the notecard
+                    {
+                        if(llGetInventoryType(configurationNotecardName) != INVENTORY_NOTECARD)
+                        {
+                            //  notify owner of missing file
+                            llOwnerSay("Missing notecard: " + configurationNotecardName);
+                            //  don't do anything else
+                            return;
+                        }
+                        line = 0;
+                        notecardQueryId = llGetNotecardLine(configurationNotecardName, line);    
+                    }
                     else if (message == scansubs) //lets add new subbies
                     {
                      // Ping for auth OpenCollars in the region
+                     llListenRemove(LISTEN); //clear all listens ready NG
+                     llOwnerSay("Starting to scan for collars");
                      AGENTS = llGetAgentList(AGENT_LIST_REGION, []); //scan for who is in the region.
                      integer i;
                      for (; i < llGetListLength(AGENTS); i++) //build a list of who to scan
                      {
                        SendCommand(llList2Key(AGENTS, i)); //kick off "sendCommand" for each uuid
                      }
-
+                        llListenRemove(LISTEN); //clear all listens ready NG is this overkill to do this here as well?
                         SubMenu(id); //return to SubMenu
                     }
                 }
@@ -541,26 +599,39 @@ default
                     }
                     if (llGetSubString(msg,5,7)=="503")
                     {
-                        auth = "Wearer";
+                        auth = "Group";
                     }
                     if (llGetSubString(msg,5,7)=="504")
                     {
-                        auth = "Group";
+                        auth = "Wearer";
                     }
             key subId=llGetOwnerKey(id);
             string subName=llKey2Name(subId);
             if (subName=="") subName="????";
             llOwnerSay(subName+" - with auth level of " + (string)auth + " has been detected.");
+            if (llGetSubString(msg,5,7)=="504")
+            {
+                llOwnerSay("Sorry we do not have access to this collar");
+            }
+            else
+            {
             AddSub(subId,subName);
+            }
         } 
     }
     on_rez(integer param)
     {
         if (llGetOwner()!=wearer) llResetScript();//if new owner lets reset everything
     }
- timer()//clear things after ping
+    timer()//clear things after ping
     {
         llSetTimerEvent(0);
         AGENTS = [];
+        llListenRemove(LISTEN); //clear all listens ready for next time
+    }
+    dataserver(key request_id, string data)
+    {
+        if(request_id == notecardQueryId)
+            processConfiguration(data);
     }
 }

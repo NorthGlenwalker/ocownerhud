@@ -264,12 +264,12 @@ DoReset()
     tintable = FALSE;
     Hidden = FALSE;
     DoTextures("Gray Square");
-    llSleep(2.0);
+    llSleep(1.0);
     primOrder = [0,1,2,3,4,5,6];
     DoHide();
     llSleep(1.0);
     DefinePosition();
-    llSleep(2.0); // -- We want the position to be set before reset
+    llSleep(1.0); // -- We want the position to be set before reset
     llOwnerSay("Finalizing HUD Reset... please wait a few seconds so all menus have time to initialize.");
     llResetScript();
 }    
@@ -723,12 +723,5 @@ default
     timer()
     {
         //
-    }
-    changed(integer change)
-    {
-        if (change & CHANGED_OWNER)
-        {
-            llResetScript();
-        }
     }
 }

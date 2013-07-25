@@ -55,6 +55,7 @@ The 6 HUD Buttons: (Left to Right when at default setting)
 [List subs] -  dump the list of subs into chat
 [Remove Sub] - removes the sub from the HUD AND removes you as owner from the sub's collar
 [Scan Subs] - Scans for subs you are owner (or open access) of, and adds them to the HUD, it will show in chat any it finds and what access level you have of that sub.
+[Load Subs]  - Loads subs and their keys from the Subs notecard
 
 >LeashMenu - menu<
 [Leash] - Select a single or all your controlled subs to leash
