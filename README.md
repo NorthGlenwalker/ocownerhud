@@ -23,6 +23,7 @@ New Goals: Evolution (Evol39)
 - Added OwnerMenu to enable 11 non standard commands to be added by the user, and help guild - Done (NG)
 - Added chat command /7reset to clear the settings in the hud - Done (NG)
 - Added Subs notecard to load sub name and key into hud from the Subs menu - Done (NG)
+- Added Dump Subs, to dump subs and keys to chat to copy and paste to the Subs notecard - Done (NG)
 
 3.800 Owners hud finished items:
 ---------------------------------
