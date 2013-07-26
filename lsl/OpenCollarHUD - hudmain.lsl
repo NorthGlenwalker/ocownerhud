@@ -56,6 +56,7 @@ string removesub="Remove Sub";
 string reloadlist="Reload Subs";
 string scansubs="Scan Subs";
 string loadnotecard = "Load Subs";
+string dumpsubs = "Dump Subs";
 string ALLSUBS = "*All*";
 string currentmenu;
 string wearerName;
@@ -149,8 +150,20 @@ AddSub(key id, string name)
 {
     if (llListFindList(subs,[id])!=-1) return;
     if( llStringLength(name) >= 24) name=llStringTrim(llGetSubString(name, 0, 23),STRING_TRIM); //only store first 24 char$ of subs name
-    subs+=[id,name,"***","***"];
-    llOwnerSay(name+" has been registered.");
+    if (name=="????")//don't register any unrecognised names
+    {
+    }
+    else
+    {
+        if (id=="00000000-0000-0000-0000-000000000000")//Don't register any invalid ID's
+        {
+        }
+        else
+        {
+            subs+=[id,name,"***","***"];//Well we got here so lets add them to the list.
+            llOwnerSay(name+" has been registered.");//Tell the owner we made it.
+        }
+    }
 }
 
 RemoveSub(key subbie)
@@ -190,7 +203,7 @@ key Dialog(key rcpt, string prompt, list choices, list utilitybuttons, integer p
 
 SubMenu(key id) // Single page menu
 {
-    string text = "Pick an option.";
+    string text = "Pick an option.\n";
     //list subs in prompt just fyi
     integer n;
     integer stop = llGetListLength(subs);
@@ -199,10 +212,10 @@ SubMenu(key id) // Single page menu
     {
         text += "\n" + llList2String(subs, n + 1);
     }
-
+    text += "\n";
     list buttons;
     //add sub
-    buttons += [listsubs,removesub,scansubs,loadnotecard];
+    buttons += [listsubs,removesub,scansubs,loadnotecard,dumpsubs];
     //parent menu
     list utility = [UPMENU];
     
@@ -331,7 +344,7 @@ processConfiguration(string data)
     if(data == EOF)
     {
     //  notify the owner
-        llOwnerSay("We are done reading the Sub Notecard");
+        llOwnerSay("Finished reading the Sub Notecard");
         return;
     }
     if(data != "")//  if we are not working with a blank line
@@ -360,6 +373,11 @@ processConfiguration(string data)
                 llOwnerSay("Configuration could not be read on line " + (string)line);
             }
         }
+    }
+    if (subname=="") 
+    {
+        subname="????";
+        subkey="00000000-0000-0000-0000-000000000000";
     }
     AddSub(subkey,subname);
     notecardQueryId = llGetNotecardLine(configurationNotecardName, ++line);//  read the next line
@@ -498,11 +516,11 @@ default
                         {
                             //  notify owner of missing file
                             llOwnerSay("Missing notecard: " + configurationNotecardName);
-                            //  don't do anything else
                             return;
                         }
                         line = 0;
-                        notecardQueryId = llGetNotecardLine(configurationNotecardName, line);    
+                        notecardQueryId = llGetNotecardLine(configurationNotecardName, line);
+                        SubMenu(id); //return to SubMenu
                     }
                     else if (message == scansubs) //lets add new subbies
                     {
@@ -518,6 +536,26 @@ default
                         llListenRemove(LISTEN); //clear all listens ready NG is this overkill to do this here as well?
                         SubMenu(id); //return to SubMenu
                     }
+                    else if (message == dumpsubs) //lets do a dump for adding to the Subs Notecard
+                    {
+                        string text = "\n#copy and paste this into your Subs notecard.\n# You need to add the name and Key of each person you wish to add to the hud.\n";
+                        text+= "# The subname can be shortened to a name you like\n# The subid is their Key which can be obtained from their profile\n";
+                        text+= "# This only adds the names to your hud, it does not mean you have access to their collar\n# Empty lines and lines beginning with '#' are ignored";
+                        //lets pull the keys and names from the subs list
+                        list tmplist;
+                        integer n;
+                        integer length = llGetListLength(subs);
+                        for (n = -1; n < length; n = n + 4)
+                        {
+                            tmplist = llList2List(subs, n + 2, n + 2);
+                            text+="\nsubname =  " + llDumpList2String(tmplist,"");
+                            tmplist = llList2List(subs, n + 1, n + 1);
+                            text+= "\nsubid = " +llDumpList2String(tmplist,"");
+
+                        }
+                        llOwnerSay(text);   
+                    }
+                    
                 }
                 else if (menutype == REMOVEMENU) // OK we want to remove a sub from the Hud
                 {

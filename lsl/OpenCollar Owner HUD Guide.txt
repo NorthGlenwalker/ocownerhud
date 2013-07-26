@@ -46,16 +46,17 @@ The 6 HUD Buttons: (Left to Right when at default setting)
 [Options] - Opens the HUD style/position/order options.
 [OwnerMenu] - This is a menu for owners to add their own commonly used collar commands
 [Spy] - Opens the spy menu to set spy settings.
-[Subs] - Gives you a menu where you add (scan), list your subs and a button to remove a sub from hud and collar..
+[Subs] - Gives you a menu where you add (scan), list your subs, load subs from the notecard, dump to chat to paste in Subs notecard, and a button to remove a sub from hud and collar..
 [TelePort] - Opens the Upper TP menu. 
 [UnDressMenu] - Opens the RLV / Un/Dress menu of a collar
 
 
 >Subs - menu:<
-[List subs] -  dump the list of subs into chat
-[Remove Sub] - removes the sub from the HUD AND removes you as owner from the sub's collar
+[List subs] -  Dump the list of subs into chat
+[Remove Sub] - Removes the sub from the HUD AND removes you as owner from the sub's collar
 [Scan Subs] - Scans for subs you are owner (or open access) of, and adds them to the HUD, it will show in chat any it finds and what access level you have of that sub.
 [Load Subs]  - Loads subs and their keys from the Subs notecard
+[Dump Subs] -  Dumps a list of subs and keys to copy and paste into the Subs notecard
 
 >LeashMenu - menu<
 [Leash] - Select a single or all your controlled subs to leash
