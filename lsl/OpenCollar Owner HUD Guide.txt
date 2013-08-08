@@ -1,5 +1,7 @@
-Guide for the OpenCollar Owner HUD  Vers.  Evolution 3.8415 and above
+Guide for the OpenCollar Owner HUD  Vers.  3.900
 
+??
+ 
 _______________________________________
 
 The HUD is designed to be attached to any point of your HUD. Attaching it to the two center positions might get in the way, but if you were really limited on HUD attach points, you could manually edit/move its position off to the sides. 
@@ -19,10 +21,13 @@ Chat commands (default channel is 7):
 /7hug name -> will ask name to accept a hug 
 (available couple anims are: hug, kiss, hugsub, kissfoot, lickboot, jumphug... where the animations are opposite the one ones in the collar!)
 /7channel x -> changes the hud listen channel to x (where x has to be > 0 )
+/7help  -> gives you this HUD help Guide, 
+/7update -> gives you a update Guild,.
+/7owner -> gives you an Owners menu Setup Guide.
 /7reset -> Does a hud reset and clears the subs list.
 
 You can also bring you any collar menu with -
-/7\\<collarmenuname> - (note the "\\" before the collar menu name) this will bring up the sub selection menu to send the command to i.e. /7\\rlv - will bring up the rlv menu of the selected collar.
+/7<collarmenuname> - this will bring up the sub selection menu to send the command to i.e. /7rlv - will bring up the rlv menu of the selected collar.
 
 ======
 
@@ -41,11 +46,10 @@ The 6 HUD Buttons: (Left to Right when at default setting)
 
 [CollarMenu] - Allows you to select from any registered collar menu's from your subs around.
 [Couples] - Opens the couple animation menu to choose an animation.
-[CuffMenu] - Currently a place holder waiting for code
 [LeashMenu] - Opens the Leash/Unleash menu
 [Options] - Opens the HUD style/position/order options.
 [OwnerMenu] - This is a menu for owners to add their own commonly used collar commands
-[Spy] - Opens the spy menu to set spy settings.
+[Spy] - Gives you a menu to control the Spy plugin commands.
 [Subs] - Gives you a menu where you add (scan), list your subs, load subs from the notecard, dump to chat to paste in Subs notecard, and a button to remove a sub from hud and collar..
 [TelePort] - Opens the Upper TP menu. 
 [UnDressMenu] - Opens the RLV / Un/Dress menu of a collar
@@ -56,7 +60,9 @@ The 6 HUD Buttons: (Left to Right when at default setting)
 [Remove Sub] - Removes the sub from the HUD AND removes you as owner from the sub's collar
 [Scan Subs] - Scans for subs you are owner (or open access) of, and adds them to the HUD, it will show in chat any it finds and what access level you have of that sub.
 [Load Subs]  - Loads subs and their keys from the Subs notecard
-[Dump Subs] -  Dumps a list of subs and keys to copy and paste into the Subs notecard
+[Dump Subs] -  Dumps a list of subs and keys to chat so you may copy and paste into the Subs notecard
+
+***** There is unresolved unwanted feature in the Scan code. The hud keeps listening waiting for an answer from any collar it has scanned, if there is no collar it holds this listen open even between relogs. Once it has reached 65 separate collars it is still waiting for, it will error with "Too many open listens" please save your subs to note card so they can be reloaded and reset your collar through the options menu, or /7reset, This will not show up for the normal hud user, but it will help to scan your new subs in a low used region ******
 
 >LeashMenu - menu<
 [Leash] - Select a single or all your controlled subs to leash

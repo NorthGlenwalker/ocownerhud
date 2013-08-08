@@ -1,4 +1,4 @@
-How to set up the Owner Hud Owner Menu.
+How to set up the OpenCollar OwnersHud Owner Menu.
 ----------------------------------------------------
 You need some basic edit skills, but I have tried to make it as easy as possible to set this up.
 
@@ -27,7 +27,7 @@ The menu system is designed to work with any command you would normally type in 
 
 //This is where you change the text of each button, keep it short!
 string Button1 = "Cuffs";
-string Button2 = "Spymenu";
+string Button2 = "RLVMenu";
 string Button3 = "Ballgag";
 string Button4 = "NoCuffs";
 string Button5 = "NoBallgag";
@@ -40,7 +40,7 @@ string Button11 = "Button11";
 
 //This is where you add the command you want the button to do
 string cmd1 = "+cuffs"; //will attach the folder in #RLV called cuffs
-string cmd2 = "spymenu"; //will give you the collar spy menu
+string cmd2 = "rlv"; //will give you the collar rlv menu
 string cmd3 = "+ballgag"; //will attach the folder named ballgag
 string cmd4 = "-cuffs"; //will detach the #RLV folder called cuffs
 string cmd5 = "-ballgag"; //will detach the #RLV folder called ballgag
