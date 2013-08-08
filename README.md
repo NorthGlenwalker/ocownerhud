@@ -1,16 +1,17 @@
 Let's work on the Owner Hud!
 ===========================
 
-New Goals: Evolution (Evol39)
+New Goals: 
 
+
+3.900 Owners Hud Finished items:
+-------------------------------
 - New collar link direct to RLV main menu - Update linking into Un/Dress menu instead, Hud section written in - Done (NG)
 - Requested hook into Un/Dress Menu from Joy, along with change the main menu hook from "menuto" to "menu", this change will make the Owner hud incompatible with <3.840 collars (Joy has removed the old "menuto" code section as bad coding and rewritten) whole new "auth" system writen into collar, hud changed to reflect this. - Done (NG)
 - Change llRegionSay and llSay -> llRegionSayTo - Done (NG)
 - Remove all the AutoTP code since we no longer use this option in the Hud (Why did we have an option in the hud to turn AutoTP on and off?) - Done (NG)
 - Adjusted the llOwnerSay string to be more descriptive by using Key2Name - EG when access to a sub called sub123, the main collar menu will respond - "Sending to Sub123 Resident's collar - menu" - Done (NG)
 - Added "post" command to leash menu to bring up the collar "post menu" to display items to leash the collar to - Done (NG)
-- ":" separator has been replaced with "\" so RLV commands from the HUD or cuffs are not chopped up before being actioned - Done (NG)
-- removed colon from "command send" script and added to each button cmd string to enable easy TP to LM change - Done (NG)
 - update cage rezzer script to use llRegionSayTo - Done (NG)
 - Add leash post to cager menu
 - Adjusted Animation timeout from the HUD from 30 to 60 seconds - Done (NG)
@@ -24,6 +25,7 @@ New Goals: Evolution (Evol39)
 - Added chat command /7reset to clear the settings in the hud - Done (NG)
 - Added Subs notecard to load sub name and key into hud from the Subs menu - Done (NG)
 - Added Dump Subs, to dump subs and keys to chat to copy and paste to the Subs notecard - Done (NG)
+- Spy menu buttons adjusted to layed out berrer - -Done (NG)
 
 3.800 Owners hud finished items:
 ---------------------------------
