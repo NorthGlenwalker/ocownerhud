@@ -2,6 +2,9 @@ Let's work on the Owner Hud!
 ===========================
 
 New Goals: 
+3.9xx Owners Hud Ideas:
+-----------------------
+- Look into implentation of llEmail to send grid wide.
 
 
 3.900 Owners Hud Finished items:
