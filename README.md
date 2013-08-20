@@ -9,7 +9,7 @@ New Goals:
 
 3.910 Owners Hud bug fix
 ------------------------
-- Fixed rare bug with the hud erroring with "to many listeners" in hudmain script. This was a knmown rare bug but has taken uptoo now to find a fix.
+- Fixed rare bug with the hud erroring with "to many listeners" in hudmain script. This was a known rare bug but has taken upto now to find a fix.
 
 
 3.900 Owners Hud Finished items:
